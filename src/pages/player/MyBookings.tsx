@@ -14,6 +14,7 @@ export default function MyBookings() {
   const [bookings, setBookings] = useState<BookingResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [cancelId, setCancelId] = useState<number | null>(null);
+  const [cancelBooking_, setCancelBooking_] = useState<BookingResponse | null>(null);
   const [cancelling, setCancelling] = useState(false);
 
   const fetch = () => { setLoading(true); getMyBookings().then((r) => setBookings(r.data)).finally(() => setLoading(false)); };
@@ -26,6 +27,7 @@ export default function MyBookings() {
       await cancelBooking(cancelId);
       toast.success(i18n.language === 'ar' ? 'تم الإلغاء' : 'Cancelled');
       setCancelId(null);
+      setCancelBooking_(null);
       fetch();
     } catch (err: any) { toast.error(err.displayMessage); }
     finally { setCancelling(false); }
@@ -56,8 +58,8 @@ export default function MyBookings() {
                       <td className="px-4 py-3 text-gray-500">{fmt(b.createdAt)}</td>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-2">
-                          {b.status === 'PENDING' && (
-                            <button onClick={() => setCancelId(b.id)} className="px-2 py-1 bg-red-50 text-red-600 rounded-lg text-xs font-medium hover:bg-red-100">{t('cancel')}</button>
+                          {(b.status === 'PENDING' || b.status === 'APPROVED') && (
+                            <button onClick={() => { setCancelId(b.id); setCancelBooking_(b); }} className="px-2 py-1 bg-red-50 text-red-600 rounded-lg text-xs font-medium hover:bg-red-100">{t('cancel')}</button>
                           )}
                           {b.status === 'APPROVED' && b.paymentStatus !== 'PAID' && (
                             <button onClick={() => navigate(`/player/pay/${b.id}`)} className="px-2 py-1 bg-green-600 text-white rounded-lg text-xs font-medium hover:bg-green-700">{t('payNow')}</button>
@@ -72,7 +74,19 @@ export default function MyBookings() {
           )}
         </div>
       )}
-      <ConfirmModal open={!!cancelId} message={t('confirmDelete')} onConfirm={handleCancel} onCancel={() => setCancelId(null)} loading={cancelling} />
+      <ConfirmModal
+        open={!!cancelId}
+        message={
+          cancelBooking_?.paymentStatus === 'PAID'
+            ? (i18n.language === 'ar'
+                ? 'هذا الحجز مدفوع. سيتم وضع علامة "مسترد" على الدفع عند الإلغاء. هل تريد المتابعة؟'
+                : 'This booking is paid. The payment will be marked as Refunded upon cancellation. Continue?')
+            : t('confirmDelete')
+        }
+        onConfirm={handleCancel}
+        onCancel={() => { setCancelId(null); setCancelBooking_(null); }}
+        loading={cancelling}
+      />
     </div>
   );
 }
