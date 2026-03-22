@@ -36,6 +36,7 @@ export interface PlaygroundResponse {
   address: string;
   pricePerHour: number;
   ratings: number;
+  imageUrls: string[];
 }
 
 export interface PlaygroundDetailResponse extends PlaygroundResponse {
@@ -84,6 +85,7 @@ export interface TeamResponse {
   name: string;
   sportType: string;
   score: number;
+  imageUrl?: string;
 }
 
 export interface MatchResponse {
@@ -114,6 +116,7 @@ export interface UserResponse {
   roles: string[];
   permissions: string[];
   enabled: boolean;
+  profileImageUrl?: string;
 }
 
 export interface PlayerDashboardResponse {

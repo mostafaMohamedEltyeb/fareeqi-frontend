@@ -61,9 +61,32 @@ export default function PlaygroundDetail() {
         <BackIcon size={16} />{t('back')}
       </button>
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-        <div className="h-48 bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-8xl">
-          {playground.sportType === 'FOOTBALL' ? '⚽' : '🎾'}
-        </div>
+        {/* Photo gallery or fallback banner */}
+        {playground.imageUrls?.length > 0 ? (
+          <div className="h-48 flex gap-1 overflow-hidden">
+            <div className="flex-1 overflow-hidden">
+              <img src={playground.imageUrls[0]} alt={playground.name} className="w-full h-full object-cover" />
+            </div>
+            {playground.imageUrls.length > 1 && (
+              <div className="w-24 flex flex-col gap-1 overflow-hidden">
+                {playground.imageUrls.slice(1, 3).map((url, i) => (
+                  <div key={url} className="relative flex-1 overflow-hidden">
+                    <img src={url} alt="" className="w-full h-full object-cover" />
+                    {i === 1 && playground.imageUrls.length > 3 && (
+                      <div className="absolute inset-0 bg-black/50 flex items-center justify-center text-white text-sm font-bold">
+                        +{playground.imageUrls.length - 3}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="h-48 bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-8xl">
+            {playground.sportType === 'FOOTBALL' ? '⚽' : '🎾'}
+          </div>
+        )}
         <div className="p-6">
           <div className="flex items-start justify-between mb-3">
             <h1 className="text-2xl font-bold text-gray-800">{playground.name}</h1>

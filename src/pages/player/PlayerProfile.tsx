@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getMyFeatures, addFeature, updateFeature, deleteFeature } from '../../api/playerFeatures';
-import type { PlayerFeatureResponse } from '../../types';
-import { useAuthStore } from '../../store/authStore';
+import { getProfile, uploadProfileImage, deleteProfileImage } from '../../api/profile';
+import type { PlayerFeatureResponse, UserResponse } from '../../types';
 import LoadingSkeleton from '../../components/shared/LoadingSkeleton';
 import ConfirmModal from '../../components/shared/ConfirmModal';
 import toast from 'react-hot-toast';
-import { Plus, Pencil, Trash2, User } from 'lucide-react';
+import { Plus, Pencil, Trash2, Camera, X } from 'lucide-react';
 
 export default function PlayerProfile() {
   const { t, i18n } = useTranslation();
-  const user = useAuthStore((s) => s.user);
+  const [profile, setProfile] = useState<UserResponse | null>(null);
   const [features, setFeatures] = useState<PlayerFeatureResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState<null | 'create' | 'edit'>(null);
@@ -18,9 +18,35 @@ export default function PlayerProfile() {
   const [form, setForm] = useState({ featureName: '', description: '' });
   const [saving, setSaving] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
+  const [uploadingImg, setUploadingImg] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const fetch = () => { setLoading(true); getMyFeatures().then((r) => setFeatures(r.data)).finally(() => setLoading(false)); };
-  useEffect(() => { fetch(); }, []);
+  const fetchProfile = () => getProfile().then((r) => setProfile(r.data));
+  const fetchFeatures = () => { setLoading(true); getMyFeatures().then((r) => setFeatures(r.data)).finally(() => setLoading(false)); };
+
+  useEffect(() => { fetchProfile(); fetchFeatures(); }, []);
+
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingImg(true);
+    try {
+      const r = await uploadProfileImage(file);
+      setProfile(r.data);
+      toast.success(i18n.language === 'ar' ? 'تم رفع الصورة!' : 'Photo uploaded!');
+    } catch (err: any) { toast.error(err.displayMessage || (i18n.language === 'ar' ? 'فشل رفع الصورة' : 'Upload failed')); }
+    finally { setUploadingImg(false); if (fileInputRef.current) fileInputRef.current.value = ''; }
+  };
+
+  const handleDeleteImage = async () => {
+    setUploadingImg(true);
+    try {
+      await deleteProfileImage();
+      setProfile((p) => p ? { ...p, profileImageUrl: undefined } : p);
+      toast.success(i18n.language === 'ar' ? 'تم حذف الصورة' : 'Photo removed');
+    } catch (err: any) { toast.error(err.displayMessage); }
+    finally { setUploadingImg(false); }
+  };
 
   const handleSave = async () => {
     setSaving(true);
@@ -28,14 +54,14 @@ export default function PlayerProfile() {
       if (modal === 'create') await addFeature(form);
       else if (editItem) await updateFeature(editItem.id, form);
       toast.success(i18n.language === 'ar' ? 'تم الحفظ!' : 'Saved!');
-      setModal(null); fetch();
+      setModal(null); fetchFeatures();
     } catch (err: any) { toast.error(err.displayMessage); }
     finally { setSaving(false); }
   };
 
   const handleDelete = async () => {
     if (!deleteId) return;
-    try { await deleteFeature(deleteId); toast.success(i18n.language === 'ar' ? 'تم الحذف' : 'Deleted'); setDeleteId(null); fetch(); }
+    try { await deleteFeature(deleteId); toast.success(i18n.language === 'ar' ? 'تم الحذف' : 'Deleted'); setDeleteId(null); fetchFeatures(); }
     catch (err: any) { toast.error(err.displayMessage); }
   };
 
@@ -43,15 +69,45 @@ export default function PlayerProfile() {
     <div className="space-y-6 max-w-2xl">
       <h1 className="text-2xl font-bold text-gray-800">{t('profile')}</h1>
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
-        <div className="flex items-center gap-4">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center"><User size={32} className="text-green-600" /></div>
+        <div className="flex items-center gap-5">
+          {/* Avatar with upload */}
+          <div className="relative group flex-shrink-0">
+            <div className="w-20 h-20 rounded-full overflow-hidden bg-green-100 flex items-center justify-center">
+              {profile?.profileImageUrl
+                ? <img src={profile.profileImageUrl} alt="profile" className="w-full h-full object-cover" />
+                : <span className="text-3xl font-bold text-green-600">{profile?.username?.[0]?.toUpperCase() || '?'}</span>
+              }
+            </div>
+            {/* Overlay on hover */}
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              disabled={uploadingImg}
+              className="absolute inset-0 rounded-full bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+            >
+              <Camera size={20} className="text-white" />
+            </button>
+            {/* Remove button */}
+            {profile?.profileImageUrl && (
+              <button onClick={handleDeleteImage} disabled={uploadingImg}
+                className="absolute -top-1 -end-1 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs hover:bg-red-600 shadow">
+                <X size={10} />
+              </button>
+            )}
+            <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleImageChange} />
+          </div>
           <div>
-            <h2 className="text-xl font-bold text-gray-800">{user?.username}</h2>
-            <p className="text-gray-500 text-sm">{user?.email}</p>
+            <h2 className="text-xl font-bold text-gray-800">{profile?.username}</h2>
+            <p className="text-gray-500 text-sm">{profile?.email}</p>
             <span className="inline-block mt-1 text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">{t('player')}</span>
+            <p className="text-xs text-gray-400 mt-1">
+              {uploadingImg
+                ? (i18n.language === 'ar' ? 'جاري الرفع...' : 'Uploading...')
+                : (i18n.language === 'ar' ? 'اضغط على الصورة لتغييرها' : 'Click photo to change')}
+            </p>
           </div>
         </div>
       </div>
+
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-semibold text-gray-800">{t('myFeatures')}</h2>
@@ -78,6 +134,7 @@ export default function PlayerProfile() {
           </div>
         )}
       </div>
+
       {modal && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-2xl">

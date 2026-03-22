@@ -9,3 +9,9 @@ export const getSlots = (playgroundId: number) => api.get(`/api/v1/playgrounds/$
 export const createSlot = (playgroundId: number, data: object) => api.post(`/api/v1/playgrounds/${playgroundId}/slots`, data);
 export const updateSlot = (playgroundId: number, slotId: number, data: object) => api.put(`/api/v1/playgrounds/${playgroundId}/slots/${slotId}`, data);
 export const deleteSlot = (playgroundId: number, slotId: number) => api.delete(`/api/v1/playgrounds/${playgroundId}/slots/${slotId}`);
+export const uploadPlaygroundImage = (id: number, file: File) => {
+  const form = new FormData(); form.append('file', file);
+  return api.post(`/api/v1/playgrounds/${id}/images`, form, { headers: { 'Content-Type': 'multipart/form-data' } });
+};
+export const removePlaygroundImage = (id: number, imageUrl: string) =>
+  api.delete(`/api/v1/playgrounds/${id}/images`, { params: { imageUrl } });

@@ -72,8 +72,13 @@ export default function BrowsePlaygrounds() {
           ) : playgrounds.map((p) => (
             <div key={p.id} onClick={() => navigate(`/player/playgrounds/${p.id}`)}
               className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all cursor-pointer overflow-hidden group">
-              <div className="h-32 bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-5xl group-hover:from-green-500 transition-all">
-                {p.sportType === 'FOOTBALL' ? '⚽' : '🎾'}
+              <div className="h-32 overflow-hidden relative">
+                {p.imageUrls?.length > 0
+                  ? <img src={p.imageUrls[0]} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                  : <div className="w-full h-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-5xl group-hover:from-green-500 transition-all">
+                      {p.sportType === 'FOOTBALL' ? '⚽' : '🎾'}
+                    </div>
+                }
               </div>
               <div className="p-4">
                 <div className="flex items-start justify-between mb-2">
