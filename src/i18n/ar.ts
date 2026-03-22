@@ -49,5 +49,6 @@ const ar = {
   verifyBtn: 'تحقق', checkedIn: 'تم تسجيل الدخول', checkedInStatus: 'مسجّل دخول',
   qrInstruction: 'اطلب من اللاعب عرض رمز QR الخاص بحجزه وأدخله هنا',
   showQr: 'رمز QR للدخول', qrInstPlayer: 'أرِ هذا الرمز لمالك الملعب عند الوصول',
+  autoExpired: 'انتهت صلاحية الحجز تلقائياً لعدم الدفع خلال 24 ساعة',
 };
 export default ar;

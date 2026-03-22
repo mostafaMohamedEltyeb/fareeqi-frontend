@@ -45,5 +45,6 @@ const en = {
   verifyBtn: 'Verify', checkedIn: 'Checked In', checkedInStatus: 'Checked In',
   qrInstruction: 'Ask the player to show their booking QR code and enter it here',
   showQr: 'Entry QR Code', qrInstPlayer: 'Show this code to the field owner upon arrival',
+  autoExpired: 'Booking auto-cancelled — payment not received within 24 hours',
 };
 export default en;

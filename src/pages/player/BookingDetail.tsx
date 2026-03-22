@@ -59,7 +59,7 @@ export default function BookingDetail() {
             <p className="text-xs text-gray-400 mb-4">{t('qrInstPlayer')}</p>
             <div className="flex flex-col items-center gap-4">
               <div className="p-4 bg-white border-2 border-green-200 rounded-2xl shadow-sm">
-                <QRCode value={booking.qrCode} size={180} />
+                <QRCode value={`${window.location.origin}/owner/verify?code=${booking.qrCode}`} size={180} />
               </div>
               <div className="flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-2 w-full">
                 <code className="font-mono text-xs text-gray-500 flex-1 break-all">{booking.qrCode}</code>

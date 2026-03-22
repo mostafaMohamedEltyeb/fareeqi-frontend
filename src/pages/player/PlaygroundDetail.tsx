@@ -86,7 +86,8 @@ export default function PlaygroundDetail() {
       </div>
 
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
-        <h2 className="font-semibold text-gray-800 mb-3">{t('ratePlayground')}</h2>
+        <h2 className="font-semibold text-gray-800 mb-1">{t('ratePlayground')}</h2>
+        <p className="text-xs text-gray-400 mb-3">{isRTL ? 'يمكنك التقييم فقط بعد زيارة الملعب وتسجيل دخولك' : 'You can rate only after your visit is checked in'}</p>
         <div className="flex items-center gap-2">
           {Array.from({ length: 5 }, (_, i) => (
             <Star key={i} size={28} className={`cursor-pointer transition-colors ${i < (hoverRating || selectedRating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`}
