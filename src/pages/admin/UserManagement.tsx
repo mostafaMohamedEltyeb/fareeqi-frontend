@@ -24,7 +24,7 @@ export default function UserManagement() {
     setSaving(true);
     try {
       if (modal === 'create') await createUser(form);
-      else if (editItem) await updateUser(editItem.id, { email: form.email, password: form.password || undefined, enabled: form.enabled, userType: form.userType, roles: new Set(form.roles) });
+      else if (editItem) await updateUser(editItem.id, { email: form.email, password: form.password || undefined, enabled: form.enabled, userType: form.userType, roles: form.roles });
       toast.success(i18n.language === 'ar' ? 'تم الحفظ!' : 'Saved!');
       setModal(null); fetch();
     } catch (err: any) { toast.error(err.displayMessage); }
@@ -90,8 +90,11 @@ export default function UserManagement() {
                 className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"/>
               <input value={form.password} onChange={(e) => setForm({...form, password:e.target.value})} placeholder={t('password')} type="password"
                 className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"/>
-              <select value={form.userType} onChange={(e) => setForm({...form, userType:e.target.value})}
-                className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 bg-white">
+              <select value={form.userType} onChange={(e) => {
+                const ut = e.target.value;
+                const roleMap: Record<string, string> = { PLAYER: 'ROLE_PLAYER', FIELD_OWNER: 'ROLE_FIELD_OWNER', ADMIN: 'ROLE_ADMIN' };
+                setForm({...form, userType: ut, roles: [roleMap[ut]]});
+              }} className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 bg-white">
                 <option value="PLAYER">{t('player')}</option>
                 <option value="FIELD_OWNER">{t('fieldOwner')}</option>
                 <option value="ADMIN">{t('admin')}</option>
