@@ -11,3 +11,4 @@ export const cancelBooking = (id: number) => api.delete(`/api/v1/bookings/${id}/
 export const updatePaymentStatus = (id: number, data: { paymentStatus: string }) => api.put(`/api/v1/bookings/${id}/payment`, data);
 export const getPlayerDashboard = () => api.get('/api/v1/bookings/dashboard');
 export const getOwnerDashboard = () => api.get('/api/v1/bookings/dashboard/owner');
+export const verifyQrCode = (qrCode: string) => api.post(`/api/v1/bookings/verify/${qrCode}`);

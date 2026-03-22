@@ -45,5 +45,9 @@ const ar = {
   welcomeBack: 'مرحباً بعودتك', fareeqi: 'فريقي', tagline: 'منصة حجز الملاعب الرياضية',
   slotTime: 'وقت الموعد', playground: 'الملعب',
   back: 'رجوع', selectTeam: 'اختر الفريق', selectPlayground: 'اختر الملعب',
+  verifyBooking: 'التحقق من الحجز', scanQr: 'مسح رمز QR', enterQrCode: 'أدخل رمز QR',
+  verifyBtn: 'تحقق', checkedIn: 'تم تسجيل الدخول', checkedInStatus: 'مسجّل دخول',
+  qrInstruction: 'اطلب من اللاعب عرض رمز QR الخاص بحجزه وأدخله هنا',
+  showQr: 'رمز QR للدخول', qrInstPlayer: 'أرِ هذا الرمز لمالك الملعب عند الوصول',
 };
 export default ar;

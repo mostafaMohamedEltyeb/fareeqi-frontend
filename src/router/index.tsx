@@ -17,6 +17,7 @@ import OwnerDashboard from '../pages/owner/OwnerDashboard';
 import MyPlaygrounds from '../pages/owner/MyPlaygrounds';
 import SlotManagement from '../pages/owner/SlotManagement';
 import OwnerBookings from '../pages/owner/OwnerBookings';
+import VerifyBooking from '../pages/owner/VerifyBooking';
 import AdminDashboard from '../pages/admin/AdminDashboard';
 import UserManagement from '../pages/admin/UserManagement';
 import AllBookings from '../pages/admin/AllBookings';
@@ -51,6 +52,7 @@ const router = createBrowserRouter([
       { path: 'owner/playgrounds', element: <Guard roles={['FIELD_OWNER']}><MyPlaygrounds /></Guard> },
       { path: 'owner/playgrounds/:playgroundId/slots', element: <Guard roles={['FIELD_OWNER']}><SlotManagement /></Guard> },
       { path: 'owner/bookings', element: <Guard roles={['FIELD_OWNER']}><OwnerBookings /></Guard> },
+      { path: 'owner/verify', element: <Guard roles={['FIELD_OWNER']}><VerifyBooking /></Guard> },
       { path: 'admin/dashboard', element: <Guard roles={['ADMIN']}><AdminDashboard /></Guard> },
       { path: 'admin/users', element: <Guard roles={['ADMIN']}><UserManagement /></Guard> },
       { path: 'admin/bookings', element: <Guard roles={['ADMIN']}><AllBookings /></Guard> },

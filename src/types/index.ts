@@ -1,7 +1,7 @@
 export type UserType = 'PLAYER' | 'FIELD_OWNER' | 'ADMIN';
 export type SportType = 'FOOTBALL' | 'PADEL';
 export type SlotStatus = 'AVAILABLE' | 'RESERVED' | 'DISABLED';
-export type BookingStatus = 'PENDING' | 'APPROVED' | 'REJECTED' | 'CANCELLED';
+export type BookingStatus = 'PENDING' | 'APPROVED' | 'REJECTED' | 'CANCELLED' | 'CHECKED_IN';
 export type PaymentStatus = 'PENDING' | 'PAID' | 'REFUNDED';
 export type PaymentTransactionStatus = 'INITIATED' | 'COMPLETED' | 'CANCELLED';
 export type NotificationStatus = 'UNREAD' | 'READ';

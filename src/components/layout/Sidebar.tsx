@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuthStore } from '../../store/authStore';
-import { LayoutDashboard, MapPin, CalendarDays, CreditCard, Users, Trophy, Swords, User, LogOut, X, Building2, ClipboardList, ChevronLeft, ChevronRight } from 'lucide-react';
+import { LayoutDashboard, MapPin, CalendarDays, CreditCard, Users, Trophy, Swords, User, LogOut, X, Building2, ClipboardList, QrCode, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Props { open: boolean; onClose: () => void; }
 
@@ -24,6 +24,7 @@ export default function Sidebar({ open, onClose }: Props) {
     { to: '/owner/dashboard', icon: LayoutDashboard, label: t('dashboard') },
     { to: '/owner/playgrounds', icon: Building2, label: t('myPlaygrounds') },
     { to: '/owner/bookings', icon: ClipboardList, label: t('bookingRequests') },
+    { to: '/owner/verify', icon: QrCode, label: t('verifyBooking') },
   ];
   const adminNav = [
     { to: '/admin/dashboard', icon: LayoutDashboard, label: t('dashboard') },
