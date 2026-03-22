@@ -6,7 +6,7 @@ import type { BookingResponse } from '../../types';
 import StatusBadge from '../../components/shared/StatusBadge';
 import LoadingSkeleton from '../../components/shared/LoadingSkeleton';
 import { ArrowLeft, ArrowRight, Copy, Check } from 'lucide-react';
-import QRCode from 'react-qr-code';
+import { QRCode } from 'react-qr-code';
 
 
 export default function BookingDetail() {
