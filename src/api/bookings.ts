@@ -1,0 +1,13 @@
+import api from './axios';
+export const createBooking = (data: { slotId: number; playgroundId: number }) => api.post('/api/v1/bookings', data);
+export const getMyBookings = () => api.get('/api/v1/bookings');
+export const getOwnerBookings = () => api.get('/api/v1/bookings/owner');
+export const getAllBookings = () => api.get('/api/v1/bookings/admin/all');
+export const getBookingById = (id: number) => api.get(`/api/v1/bookings/${id}`);
+export const updateBooking = (id: number, data: object) => api.put(`/api/v1/bookings/${id}`, data);
+export const approveBooking = (id: number) => api.put(`/api/v1/bookings/${id}/approve`);
+export const rejectBooking = (id: number) => api.put(`/api/v1/bookings/${id}/reject`);
+export const cancelBooking = (id: number) => api.delete(`/api/v1/bookings/${id}/cancel`);
+export const updatePaymentStatus = (id: number, data: { paymentStatus: string }) => api.put(`/api/v1/bookings/${id}/payment`, data);
+export const getPlayerDashboard = () => api.get('/api/v1/bookings/dashboard');
+export const getOwnerDashboard = () => api.get('/api/v1/bookings/dashboard/owner');
