@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuthStore } from '../../store/authStore';
 import { getProfile } from '../../api/profile';
-import { LayoutDashboard, MapPin, CalendarDays, CreditCard, Users, Trophy, Swords, User, LogOut, X, Building2, ClipboardList, QrCode, ChevronLeft, ChevronRight, TrendingUp } from 'lucide-react';
+import { LayoutDashboard, MapPin, CalendarDays, CreditCard, Users, Trophy, Swords, User, LogOut, X, Building2, ClipboardList, QrCode, ChevronLeft, ChevronRight, TrendingUp, Tag, Settings2, Sparkles } from 'lucide-react';
 
 interface Props { open: boolean; onClose: () => void; }
 
@@ -35,6 +35,7 @@ export default function Sidebar({ open, onClose }: Props) {
     { to: '/owner/bookings', icon: ClipboardList, label: t('bookingRequests') },
     { to: '/owner/verify', icon: QrCode, label: t('verifyBooking') },
     { to: '/owner/finance', icon: TrendingUp, label: t('finance') },
+    { to: '/owner/subscription', icon: Sparkles, label: t('mySubscription') },
   ];
   const adminNav = [
     { to: '/admin/dashboard', icon: LayoutDashboard, label: t('dashboard') },
@@ -42,6 +43,8 @@ export default function Sidebar({ open, onClose }: Props) {
     { to: '/admin/bookings', icon: CalendarDays, label: t('allBookings') },
     { to: '/admin/matches', icon: Swords, label: t('matches') },
     { to: '/admin/finance', icon: TrendingUp, label: t('finance') },
+    { to: '/admin/vouchers', icon: Tag, label: t('vouchers') },
+    { to: '/admin/settings', icon: Settings2, label: t('platformSettings') },
   ];
 
   const navItems = user?.userType === 'PLAYER' ? playerNav : user?.userType === 'FIELD_OWNER' ? ownerNav : adminNav;

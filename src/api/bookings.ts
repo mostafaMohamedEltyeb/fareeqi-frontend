@@ -1,5 +1,5 @@
 import api from './axios';
-export const createBooking = (data: { slotId: number; playgroundId: number }) => api.post('/api/v1/bookings', data);
+export const createBooking = (data: { slotId: number; playgroundId: number; teamId?: number }) => api.post('/api/v1/bookings', data);
 export const getMyBookings = () => api.get('/api/v1/bookings');
 export const getOwnerBookings = () => api.get('/api/v1/bookings/owner');
 export const getAllBookings = () => api.get('/api/v1/bookings/admin/all');

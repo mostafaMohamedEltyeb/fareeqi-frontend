@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { initiatePayment, confirmPayment, cancelPaymentApi } from '../../api/payments';
+import { validateVoucher } from '../../api/vouchers';
 import { getBookingById } from '../../api/bookings';
-import type { PaymentResponse, BookingResponse } from '../../types';
+import type { PaymentResponse, BookingResponse, VoucherValidationResponse } from '../../types';
 import toast from 'react-hot-toast';
-import { CreditCard, CheckCircle, ArrowLeft, ArrowRight, Lock } from 'lucide-react';
+import { CreditCard, CheckCircle, ArrowLeft, ArrowRight, Lock, Tag, X } from 'lucide-react';
 
 export default function PaymentPage() {
   const { t, i18n } = useTranslation();
@@ -16,6 +17,9 @@ export default function PaymentPage() {
   const [payment, setPayment] = useState<PaymentResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [card, setCard] = useState({ number: '', expiry: '', cvv: '' });
+  const [voucherInput, setVoucherInput] = useState('');
+  const [appliedVoucher, setAppliedVoucher] = useState<VoucherValidationResponse | null>(null);
+  const [voucherLoading, setVoucherLoading] = useState(false);
   const isRTL = i18n.language === 'ar';
 
   useEffect(() => {
@@ -24,11 +28,23 @@ export default function PaymentPage() {
   }, [bookingId]);
   const BackIcon = isRTL ? ArrowRight : ArrowLeft;
 
+  const handleApplyVoucher = async () => {
+    if (!voucherInput.trim() || !booking?.slotPricePerHour) return;
+    setVoucherLoading(true);
+    try {
+      const r = await validateVoucher(voucherInput.trim().toUpperCase(), booking.slotPricePerHour);
+      setAppliedVoucher(r.data);
+      toast.success(t('voucherApplied'));
+    } catch (err: any) {
+      toast.error(err.displayMessage || t('voucherInvalid'));
+    } finally { setVoucherLoading(false); }
+  };
+
   const handleInitiate = async () => {
     if (!bookingId) return;
     setLoading(true);
     try {
-      const r = await initiatePayment(Number(bookingId));
+      const r = await initiatePayment(Number(bookingId), appliedVoucher ? voucherInput.trim().toUpperCase() : undefined);
       setPayment(r.data);
       setStep(2);
     } catch (err: any) { toast.error(err.displayMessage); }
@@ -54,8 +70,10 @@ export default function PaymentPage() {
     finally { setLoading(false); }
   };
 
+  const baseAmount = booking?.slotPricePerHour ?? 0;
+
   return (
-    <div className="max-w-md mx-auto space-y-6">
+    <div className="max-w-md mx-auto space-y-6" dir={isRTL ? 'rtl' : 'ltr'}>
       <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-gray-500 hover:text-gray-700 text-sm"><BackIcon size={16} />{t('back')}</button>
 
       <div className="flex items-center gap-2 mb-6">
@@ -71,12 +89,58 @@ export default function PaymentPage() {
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-4">
           <h2 className="text-xl font-bold text-gray-800">{t('bookingSummary')}</h2>
           <p className="text-gray-500 text-sm">{isRTL ? 'حجز رقم' : 'Booking'} #{bookingId}</p>
-          <div className="bg-green-50 rounded-xl p-4 text-center">
-            <p className="text-green-600 text-sm font-medium mb-1">{t('amount')}</p>
-            <p className="text-3xl font-bold text-green-700">
-            {booking?.slotPricePerHour != null ? `EGP ${booking.slotPricePerHour}` : 'EGP --'}
-          </p>
+
+          {/* Voucher input */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-600 flex items-center gap-1"><Tag size={14} />{t('voucherCode')}</label>
+            <div className="flex gap-2">
+              <input
+                value={voucherInput}
+                onChange={(e) => { setVoucherInput(e.target.value.toUpperCase()); setAppliedVoucher(null); }}
+                placeholder={isRTL ? 'أدخل كود الخصم' : 'Enter voucher code'}
+                className="flex-1 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 uppercase"
+              />
+              {appliedVoucher ? (
+                <button onClick={() => { setAppliedVoucher(null); setVoucherInput(''); }} className="px-3 py-2 text-red-500 border border-red-200 rounded-xl text-sm hover:bg-red-50">
+                  <X size={16} />
+                </button>
+              ) : (
+                <button onClick={handleApplyVoucher} disabled={voucherLoading || !voucherInput.trim()} className="px-4 py-2 bg-green-600 text-white rounded-xl text-sm font-medium hover:bg-green-700 disabled:opacity-50">
+                  {voucherLoading ? '...' : t('applyVoucher')}
+                </button>
+              )}
+            </div>
+            {appliedVoucher && (
+              <p className="text-green-600 text-xs font-medium">
+                ✓ {appliedVoucher.code} — {isRTL ? 'خصم' : 'Discount'} {appliedVoucher.discountType === 'PERCENTAGE' ? `${appliedVoucher.discountValue}%` : `EGP ${appliedVoucher.discountValue}`}
+              </p>
+            )}
           </div>
+
+          {/* Price breakdown */}
+          <div className="bg-gray-50 rounded-xl p-4 space-y-2 text-sm">
+            <div className="flex justify-between text-gray-600">
+              <span>{t('baseFee')}</span>
+              <span>EGP {baseAmount.toFixed(2)}</span>
+            </div>
+            <div className="flex justify-between text-gray-500 text-xs">
+              <span>{t('platformFee')} (5%)</span>
+              <span>+ EGP {(baseAmount * 0.05).toFixed(2)}</span>
+            </div>
+            {appliedVoucher && (
+              <div className="flex justify-between text-green-600 text-xs">
+                <span>{t('discount')}</span>
+                <span>- EGP {appliedVoucher.discountAmount.toFixed(2)}</span>
+              </div>
+            )}
+            <div className="border-t border-gray-200 pt-2 flex justify-between font-bold text-gray-800">
+              <span>{t('totalAmount')}</span>
+              <span className="text-green-700">
+                EGP {appliedVoucher ? appliedVoucher.newTotal.toFixed(2) : (baseAmount * 1.05).toFixed(2)}
+              </span>
+            </div>
+          </div>
+
           <button onClick={handleInitiate} disabled={loading} className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-xl transition-colors disabled:opacity-50 flex items-center justify-center gap-2">
             <CreditCard size={20} />{loading ? t('loading') : t('proceedToPay')}
           </button>
@@ -86,10 +150,32 @@ export default function PaymentPage() {
       {step === 2 && payment && (
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-4">
           <h2 className="text-xl font-bold text-gray-800">{t('confirmPayment')}</h2>
-          <div className="bg-gray-50 rounded-xl p-4">
+          <div className="bg-gray-50 rounded-xl p-4 space-y-2 text-sm">
             <p className="text-xs text-gray-500 mb-1">{t('playground')}</p>
-            <p className="font-semibold text-gray-800">{payment.playgroundName}</p>
-            <p className="text-green-700 font-bold text-lg mt-1">{payment.amount} EGP</p>
+            <p className="font-semibold text-gray-800 mb-2">{payment.playgroundName}</p>
+            {payment.baseAmount != null && (
+              <>
+                <div className="flex justify-between text-gray-600">
+                  <span>{t('baseFee')}</span><span>EGP {payment.baseAmount.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between text-gray-500 text-xs">
+                  <span>{t('platformFee')}</span><span>+ EGP {(payment.platformFeeAmount ?? 0).toFixed(2)}</span>
+                </div>
+                {(payment.discountAmount ?? 0) > 0 && (
+                  <div className="flex justify-between text-green-600 text-xs">
+                    <span>{t('discount')} ({payment.appliedVoucherCode})</span>
+                    <span>- EGP {(payment.discountAmount ?? 0).toFixed(2)}</span>
+                  </div>
+                )}
+                <div className="border-t border-gray-200 pt-2 flex justify-between font-bold text-gray-800">
+                  <span>{t('totalAmount')}</span>
+                  <span className="text-green-700 text-lg">EGP {payment.amount.toFixed(2)}</span>
+                </div>
+              </>
+            )}
+            {payment.baseAmount == null && (
+              <p className="text-green-700 font-bold text-lg mt-1">EGP {payment.amount} </p>
+            )}
             <p className="text-xs text-gray-400 mt-1 font-mono">{payment.referenceNumber}</p>
           </div>
           <div className="space-y-3">

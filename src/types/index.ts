@@ -37,6 +37,7 @@ export interface PlaygroundResponse {
   pricePerHour: number;
   ratings: number;
   imageUrls: string[];
+  featured?: boolean;
 }
 
 export interface PlaygroundDetailResponse extends PlaygroundResponse {
@@ -57,6 +58,9 @@ export interface BookingResponse {
   status: BookingStatus;
   paymentStatus: PaymentStatus;
   createdAt: string;
+  teamId?: number;
+  teamName?: string;
+  cancellationFeeAmount?: number;
 }
 
 export interface NotificationResponse {
@@ -67,16 +71,63 @@ export interface NotificationResponse {
   type: string;
 }
 
+export type DiscountType = 'PERCENTAGE' | 'FIXED';
+
 export interface PaymentResponse {
   id: number;
   bookingId: number;
   playgroundName: string;
   playerUsername: string;
   amount: number;
+  baseAmount?: number;
+  platformFeeAmount?: number;
+  discountAmount?: number;
+  appliedVoucherCode?: string;
   status: PaymentTransactionStatus;
   referenceNumber: string;
   createdAt: string;
   paidAt: string | null;
+}
+
+export interface VoucherResponse {
+  id: number;
+  code: string;
+  discountType: DiscountType;
+  discountValue: number;
+  minBookingAmount?: number;
+  maxUses: number;
+  usedCount: number;
+  expiresAt?: string;
+  active: boolean;
+  createdAt: string;
+}
+
+export interface VoucherValidationResponse {
+  code: string;
+  discountType: DiscountType;
+  discountValue: number;
+  discountAmount: number;
+  newTotal: number;
+}
+
+export interface AppSettingsResponse {
+  platformFeePercent: number;
+  cancellationFeePercent: number;
+  featuredSubscriptionPrice: number;
+  featuredSubscriptionDays: number;
+}
+
+export interface PlaygroundSubscriptionResponse {
+  id: number;
+  playgroundId: number;
+  playgroundName: string;
+  ownerUsername: string;
+  tier: string;
+  startDate: string;
+  endDate: string;
+  active: boolean;
+  amountPaid: number;
+  createdAt: string;
 }
 
 export interface PeriodRevenueResponse {

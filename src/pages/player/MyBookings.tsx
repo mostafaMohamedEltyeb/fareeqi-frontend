@@ -77,7 +77,11 @@ export default function MyBookings() {
       <ConfirmModal
         open={!!cancelId}
         message={
-          cancelBooking_?.paymentStatus === 'PAID'
+          cancelBooking_?.status === 'APPROVED' && cancelBooking_?.paymentStatus === 'PAID'
+            ? (i18n.language === 'ar'
+                ? `هذا الحجز مقبول ومدفوع. سيتم خصم رسوم إلغاء (20% من سعر الحجز) وتحديد حالة الدفع كـ "مسترد". هل تريد المتابعة؟`
+                : `This booking is approved and paid. A cancellation fee of 20% will be charged and payment marked as Refunded. Continue?`)
+            : cancelBooking_?.paymentStatus === 'PAID'
             ? (i18n.language === 'ar'
                 ? 'هذا الحجز مدفوع. سيتم وضع علامة "مسترد" على الدفع عند الإلغاء. هل تريد المتابعة؟'
                 : 'This booking is paid. The payment will be marked as Refunded upon cancellation. Continue?')

@@ -23,7 +23,10 @@ import UserManagement from '../pages/admin/UserManagement';
 import AllBookings from '../pages/admin/AllBookings';
 import AdminMatches from '../pages/admin/AdminMatches';
 import AdminFinance from '../pages/admin/AdminFinance';
+import VoucherManagement from '../pages/admin/VoucherManagement';
+import PlatformSettings from '../pages/admin/PlatformSettings';
 import OwnerFinance from '../pages/owner/OwnerFinance';
+import OwnerSubscription from '../pages/owner/OwnerSubscription';
 
 function Guard({ children, roles }: { children: React.ReactNode; roles?: string[] }) {
   const user = useAuthStore((s) => s.user);
@@ -56,11 +59,14 @@ const router = createBrowserRouter([
       { path: 'owner/bookings', element: <Guard roles={['FIELD_OWNER']}><OwnerBookings /></Guard> },
       { path: 'owner/verify', element: <Guard roles={['FIELD_OWNER']}><VerifyBooking /></Guard> },
       { path: 'owner/finance', element: <Guard roles={['FIELD_OWNER']}><OwnerFinance /></Guard> },
+      { path: 'owner/subscription', element: <Guard roles={['FIELD_OWNER']}><OwnerSubscription /></Guard> },
       { path: 'admin/dashboard', element: <Guard roles={['ADMIN']}><AdminDashboard /></Guard> },
       { path: 'admin/users', element: <Guard roles={['ADMIN']}><UserManagement /></Guard> },
       { path: 'admin/bookings', element: <Guard roles={['ADMIN']}><AllBookings /></Guard> },
       { path: 'admin/matches', element: <Guard roles={['ADMIN']}><AdminMatches /></Guard> },
       { path: 'admin/finance', element: <Guard roles={['ADMIN']}><AdminFinance /></Guard> },
+      { path: 'admin/vouchers', element: <Guard roles={['ADMIN']}><VoucherManagement /></Guard> },
+      { path: 'admin/settings', element: <Guard roles={['ADMIN']}><PlatformSettings /></Guard> },
       { path: '*', element: <Navigate to="/login" replace /> },
     ],
   },

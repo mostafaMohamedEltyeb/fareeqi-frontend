@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { getPlaygrounds } from '../../api/playgrounds';
 import type { PlaygroundResponse } from '../../types';
 import LoadingSkeleton from '../../components/shared/LoadingSkeleton';
-import { MapPin, Star, Search, Filter } from 'lucide-react';
+import { MapPin, Star, Search, Filter, Sparkles } from 'lucide-react';
 
 export default function BrowsePlaygrounds() {
   const { t } = useTranslation();
@@ -24,7 +24,9 @@ export default function BrowsePlaygrounds() {
       if (filters.maxPrice) params.maxPrice = filters.maxPrice;
       if (filters.minRating) params.minRating = filters.minRating;
       const r = await getPlaygrounds(params);
-      setPlaygrounds(r.data);
+      // Sort featured playgrounds first
+      const sorted = [...r.data].sort((a: any, b: any) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
+      setPlaygrounds(sorted);
     } catch {} finally { setLoading(false); }
   };
 
@@ -71,7 +73,7 @@ export default function BrowsePlaygrounds() {
             <div className="col-span-3 text-center text-gray-400 py-16">{t('noData')}</div>
           ) : playgrounds.map((p) => (
             <div key={p.id} onClick={() => navigate(`/player/playgrounds/${p.id}`)}
-              className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition-all cursor-pointer overflow-hidden group">
+              className={`bg-white rounded-xl border shadow-sm hover:shadow-md transition-all cursor-pointer overflow-hidden group ${p.featured ? 'border-yellow-300 ring-1 ring-yellow-200' : 'border-gray-100'}`}>
               <div className="h-32 overflow-hidden relative">
                 {p.imageUrls?.length > 0
                   ? <img src={p.imageUrls[0]} alt={p.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -79,6 +81,11 @@ export default function BrowsePlaygrounds() {
                       {p.sportType === 'FOOTBALL' ? '⚽' : '🎾'}
                     </div>
                 }
+                {p.featured && (
+                  <div className="absolute top-2 start-2 flex items-center gap-1 bg-yellow-400 text-yellow-900 text-xs font-bold px-2 py-0.5 rounded-full shadow">
+                    <Sparkles size={10} />{t('featuredBadge')}
+                  </div>
+                )}
               </div>
               <div className="p-4">
                 <div className="flex items-start justify-between mb-2">

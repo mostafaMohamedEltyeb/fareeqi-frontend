@@ -3,7 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { getPlaygroundById, ratePlayground } from '../../api/playgrounds';
 import { createBooking } from '../../api/bookings';
-import type { PlaygroundDetailResponse, SlotResponse } from '../../types';
+import { getAllTeams } from '../../api/teams';
+import type { PlaygroundDetailResponse, SlotResponse, TeamResponse } from '../../types';
 import LoadingSkeleton from '../../components/shared/LoadingSkeleton';
 import StatusBadge from '../../components/shared/StatusBadge';
 import toast from 'react-hot-toast';
@@ -21,11 +22,14 @@ export default function PlaygroundDetail() {
   const [ratingLoading, setRatingLoading] = useState(false);
   const [bookingSlot, setBookingSlot] = useState<SlotResponse | null>(null);
   const [bookingLoading, setBookingLoading] = useState(false);
+  const [teams, setTeams] = useState<TeamResponse[]>([]);
+  const [selectedTeamId, setSelectedTeamId] = useState<number | ''>('');
   const isRTL = i18n.language === 'ar';
   const BackIcon = isRTL ? ArrowRight : ArrowLeft;
 
   useEffect(() => {
     if (id) getPlaygroundById(Number(id)).then((r) => setPlayground(r.data)).finally(() => setLoading(false));
+    getAllTeams().then(r => setTeams(r.data)).catch(() => {});
   }, [id]);
 
   const handleRate = async () => {
@@ -42,9 +46,10 @@ export default function PlaygroundDetail() {
     if (!bookingSlot || !playground) return;
     setBookingLoading(true);
     try {
-      await createBooking({ slotId: bookingSlot.id, playgroundId: playground.id });
+      await createBooking({ slotId: bookingSlot.id, playgroundId: playground.id, teamId: selectedTeamId || undefined });
       toast.success(i18n.language === 'ar' ? 'تم الحجز بنجاح!' : 'Booking created!');
       setBookingSlot(null);
+      setSelectedTeamId('');
       navigate('/player/bookings');
     } catch (err: any) { toast.error(err.displayMessage); }
     finally { setBookingLoading(false); }
@@ -152,7 +157,17 @@ export default function PlaygroundDetail() {
             <h3 className="font-bold text-gray-800 text-lg mb-3">{t('bookNow')}</h3>
             <p className="text-gray-600 text-sm mb-1">{playground.name}</p>
             <p className="text-gray-500 text-xs mb-4">{fmt(bookingSlot.startTime)} → {fmt(bookingSlot.endTime)}</p>
-            <p className="font-bold text-green-700 text-lg mb-5">{bookingSlot.pricePerHour} EGP</p>
+            <p className="font-bold text-green-700 text-lg mb-3">{bookingSlot.pricePerHour} EGP</p>
+            {teams.length > 0 && (
+              <div className="mb-4">
+                <label className="block text-xs font-medium text-gray-600 mb-1">{t('teamOptional')}</label>
+                <select value={selectedTeamId} onChange={e => setSelectedTeamId(e.target.value ? Number(e.target.value) : '')}
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 bg-white">
+                  <option value="">{isRTL ? 'بدون فريق' : 'No team'}</option>
+                  {teams.map(team => <option key={team.id} value={team.id}>{team.name}</option>)}
+                </select>
+              </div>
+            )}
             <div className="flex gap-3">
               <button onClick={() => setBookingSlot(null)} className="flex-1 py-2 rounded-lg border border-gray-200 text-sm font-medium hover:bg-gray-50">{t('cancel')}</button>
               <button onClick={handleBook} disabled={bookingLoading} className="flex-1 py-2 rounded-lg bg-green-600 text-white text-sm font-medium hover:bg-green-700 disabled:opacity-50">
