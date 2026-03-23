@@ -73,7 +73,9 @@ export default function PaymentPage() {
     finally { setLoading(false); }
   };
 
-  const baseAmount = booking?.slotPricePerHour ?? 0;
+  const baseAmount = (booking?.slotPricePerHour && booking.slotPricePerHour > 0)
+    ? booking.slotPricePerHour
+    : 0;
   const feePercent = settings?.platformFeePercent ?? 5;
 
   return (
@@ -124,6 +126,10 @@ export default function PaymentPage() {
           {/* Price breakdown */}
           {!booking ? (
             <div className="bg-gray-50 rounded-xl p-4 text-center text-gray-400 text-sm">{t('loading')}</div>
+          ) : baseAmount === 0 ? (
+            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-amber-700 text-sm">
+              {isRTL ? 'سيتم احتساب السعر الفعلي عند المتابعة للدفع.' : 'Exact price will be calculated when you proceed to pay.'}
+            </div>
           ) : (
             <div className="bg-gray-50 rounded-xl p-4 space-y-2 text-sm">
               <div className="flex justify-between text-gray-600">
