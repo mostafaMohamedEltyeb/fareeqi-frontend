@@ -36,9 +36,9 @@ export default function MyPayments() {
       {!loading && finance && (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
-            { title: 'Total Spent', value: fmtMoney(finance.totalRevenue), icon: TrendingUp, color: 'text-green-600 bg-green-50' },
-            { title: 'Completed Payments', value: String(finance.totalPaidBookings), icon: CreditCard, color: 'text-blue-600 bg-blue-50' },
-            { title: 'Avg per Booking', value: fmtMoney(finance.averageBookingAmount), icon: BarChart2, color: 'text-purple-600 bg-purple-50' },
+            { title: t('totalSpent'), value: fmtMoney(finance.totalRevenue), icon: TrendingUp, color: 'text-green-600 bg-green-50' },
+            { title: t('completedPayments'), value: String(finance.totalPaidBookings), icon: CreditCard, color: 'text-blue-600 bg-blue-50' },
+            { title: t('avgPerBooking'), value: fmtMoney(finance.averageBookingAmount), icon: BarChart2, color: 'text-purple-600 bg-purple-50' },
           ].map(({ title, value, icon: Icon, color }) => (
             <div key={title} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 flex items-center gap-3">
               <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${color}`}>

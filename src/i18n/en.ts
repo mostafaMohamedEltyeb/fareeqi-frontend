@@ -46,5 +46,17 @@ const en = {
   qrInstruction: 'Ask the player to show their booking QR code and enter it here',
   showQr: 'Entry QR Code', qrInstPlayer: 'Show this code to the field owner upon arrival',
   autoExpired: 'Booking auto-cancelled — payment not received within 24 hours',
+  finance: 'Finance', financeReports: 'Finance Reports', myFinance: 'My Finance',
+  trackRevenue: 'Track revenue, bookings and playground performance',
+  revenueFromPlaygrounds: 'Revenue from your playgrounds',
+  exportCsv: 'Export CSV', exporting: 'Exporting…',
+  totalRevenue: 'Total Revenue', avgPerBooking: 'Avg per Booking', topPlayground: 'Top Playground',
+  revenueTrend: 'Revenue Trend', revenueByPlayground: 'Revenue by Playground',
+  noDataForPeriod: 'No data for selected period',
+  shareLabel: 'Share', fromDate: 'From', toDate: 'To',
+  daily: 'Daily', weekly: 'Weekly', monthly: 'Monthly', yearly: 'Yearly',
+  totalSpent: 'Total Spent', completedPayments: 'Completed Payments',
+  exportFailed: 'Export failed', reportDownloaded: 'Report downloaded',
+  failedToLoadFinance: 'Failed to load finance data',
 };
 export default en;

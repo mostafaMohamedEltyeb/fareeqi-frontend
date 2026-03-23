@@ -34,14 +34,14 @@ export default function Sidebar({ open, onClose }: Props) {
     { to: '/owner/playgrounds', icon: Building2, label: t('myPlaygrounds') },
     { to: '/owner/bookings', icon: ClipboardList, label: t('bookingRequests') },
     { to: '/owner/verify', icon: QrCode, label: t('verifyBooking') },
-    { to: '/owner/finance', icon: TrendingUp, label: 'Finance' },
+    { to: '/owner/finance', icon: TrendingUp, label: t('finance') },
   ];
   const adminNav = [
     { to: '/admin/dashboard', icon: LayoutDashboard, label: t('dashboard') },
     { to: '/admin/users', icon: Users, label: t('users') },
     { to: '/admin/bookings', icon: CalendarDays, label: t('allBookings') },
     { to: '/admin/matches', icon: Swords, label: t('matches') },
-    { to: '/admin/finance', icon: TrendingUp, label: 'Finance' },
+    { to: '/admin/finance', icon: TrendingUp, label: t('finance') },
   ];
 
   const navItems = user?.userType === 'PLAYER' ? playerNav : user?.userType === 'FIELD_OWNER' ? ownerNav : adminNav;

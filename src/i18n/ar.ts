@@ -50,5 +50,17 @@ const ar = {
   qrInstruction: 'اطلب من اللاعب عرض رمز QR الخاص بحجزه وأدخله هنا',
   showQr: 'رمز QR للدخول', qrInstPlayer: 'أرِ هذا الرمز لمالك الملعب عند الوصول',
   autoExpired: 'انتهت صلاحية الحجز تلقائياً لعدم الدفع خلال 24 ساعة',
+  finance: 'المالية', financeReports: 'التقارير المالية', myFinance: 'ماليتي',
+  trackRevenue: 'تتبع الإيرادات والحجوزات وأداء الملاعب',
+  revenueFromPlaygrounds: 'إيرادات ملاعبك',
+  exportCsv: 'تصدير CSV', exporting: 'جاري التصدير...',
+  totalRevenue: 'إجمالي الإيرادات', avgPerBooking: 'متوسط الحجز', topPlayground: 'أفضل ملعب',
+  revenueTrend: 'مسار الإيرادات', revenueByPlayground: 'الإيرادات حسب الملعب',
+  noDataForPeriod: 'لا توجد بيانات للفترة المحددة',
+  shareLabel: 'الحصة', fromDate: 'من', toDate: 'إلى',
+  daily: 'يومي', weekly: 'أسبوعي', monthly: 'شهري', yearly: 'سنوي',
+  totalSpent: 'إجمالي المصروفات', completedPayments: 'المدفوعات المكتملة',
+  exportFailed: 'فشل التصدير', reportDownloaded: 'تم تحميل التقرير',
+  failedToLoadFinance: 'فشل تحميل البيانات المالية',
 };
 export default ar;
