@@ -1,5 +1,6 @@
 import api from './axios';
 export const getPlaygrounds = (params?: object) => api.get('/api/v1/playgrounds', { params });
+export const getMyPlaygrounds = () => api.get('/api/v1/playgrounds/my');
 export const getPlaygroundById = (id: number) => api.get(`/api/v1/playgrounds/${id}`);
 export const createPlayground = (data: object) => api.post('/api/v1/playgrounds', data);
 export const updatePlayground = (id: number, data: object) => api.put(`/api/v1/playgrounds/${id}`, data);

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { getPlaygrounds, createPlayground, updatePlayground, deletePlayground, uploadPlaygroundImage, removePlaygroundImage } from '../../api/playgrounds';
+import { getMyPlaygrounds, createPlayground, updatePlayground, deletePlayground, uploadPlaygroundImage, removePlaygroundImage } from '../../api/playgrounds';
 import type { PlaygroundResponse } from '../../types';
 import LoadingSkeleton from '../../components/shared/LoadingSkeleton';
 import ConfirmModal from '../../components/shared/ConfirmModal';
@@ -25,7 +25,7 @@ export default function MyPlaygrounds() {
   const [removingUrl, setRemovingUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const fetch = () => { setLoading(true); getPlaygrounds().then((r) => setPlaygrounds(r.data)).finally(() => setLoading(false)); };
+  const fetch = () => { setLoading(true); getMyPlaygrounds().then((r) => setPlaygrounds(r.data)).finally(() => setLoading(false)); };
   useEffect(() => { fetch(); }, []);
 
   const handleSave = async () => {
