@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { initiatePayment, confirmPayment, cancelPaymentApi } from '../../api/payments';
-import type { PaymentResponse } from '../../types';
+import { getBookingById } from '../../api/bookings';
+import type { PaymentResponse, BookingResponse } from '../../types';
 import toast from 'react-hot-toast';
 import { CreditCard, CheckCircle, ArrowLeft, ArrowRight, Lock } from 'lucide-react';
 
@@ -11,10 +12,16 @@ export default function PaymentPage() {
   const { bookingId } = useParams<{ bookingId: string }>();
   const navigate = useNavigate();
   const [step, setStep] = useState<1 | 2 | 3>(1);
+  const [booking, setBooking] = useState<BookingResponse | null>(null);
   const [payment, setPayment] = useState<PaymentResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [card, setCard] = useState({ number: '', expiry: '', cvv: '' });
   const isRTL = i18n.language === 'ar';
+
+  useEffect(() => {
+    if (!bookingId) return;
+    getBookingById(Number(bookingId)).then(r => setBooking(r.data)).catch(() => {});
+  }, [bookingId]);
   const BackIcon = isRTL ? ArrowRight : ArrowLeft;
 
   const handleInitiate = async () => {
@@ -66,7 +73,9 @@ export default function PaymentPage() {
           <p className="text-gray-500 text-sm">{isRTL ? 'حجز رقم' : 'Booking'} #{bookingId}</p>
           <div className="bg-green-50 rounded-xl p-4 text-center">
             <p className="text-green-600 text-sm font-medium mb-1">{t('amount')}</p>
-            <p className="text-3xl font-bold text-green-700">SAR --</p>
+            <p className="text-3xl font-bold text-green-700">
+            {booking?.slotPricePerHour != null ? `EGP ${booking.slotPricePerHour}` : 'EGP --'}
+          </p>
           </div>
           <button onClick={handleInitiate} disabled={loading} className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-xl transition-colors disabled:opacity-50 flex items-center justify-center gap-2">
             <CreditCard size={20} />{loading ? t('loading') : t('proceedToPay')}
@@ -80,7 +89,7 @@ export default function PaymentPage() {
           <div className="bg-gray-50 rounded-xl p-4">
             <p className="text-xs text-gray-500 mb-1">{t('playground')}</p>
             <p className="font-semibold text-gray-800">{payment.playgroundName}</p>
-            <p className="text-green-700 font-bold text-lg mt-1">{payment.amount} SAR</p>
+            <p className="text-green-700 font-bold text-lg mt-1">{payment.amount} EGP</p>
             <p className="text-xs text-gray-400 mt-1 font-mono">{payment.referenceNumber}</p>
           </div>
           <div className="space-y-3">

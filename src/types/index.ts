@@ -52,6 +52,7 @@ export interface BookingResponse {
   slotId: number;
   slotStartTime: string;
   slotEndTime: string;
+  slotPricePerHour?: number;
   qrCode: string;
   status: BookingStatus;
   paymentStatus: PaymentStatus;

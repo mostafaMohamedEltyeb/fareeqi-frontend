@@ -76,7 +76,7 @@ export default function SlotManagement() {
                       <td className="px-4 py-3 text-gray-700">{fmt(s.startTime)}</td>
                       <td className="px-4 py-3 text-gray-700">{fmt(s.endTime)}</td>
                       <td className="px-4 py-3"><StatusBadge status={s.status}/></td>
-                      <td className="px-4 py-3 font-semibold text-green-700">{s.pricePerHour} SAR</td>
+                      <td className="px-4 py-3 font-semibold text-green-700">{s.pricePerHour} EGP</td>
                       <td className="px-4 py-3">
                         <div className="flex gap-2">
                           <button onClick={() => { setEditItem(s); setForm({ startTime: s.startTime, endTime: s.endTime, pricePerHour: String(s.pricePerHour), status: s.status }); setModal('edit'); }}

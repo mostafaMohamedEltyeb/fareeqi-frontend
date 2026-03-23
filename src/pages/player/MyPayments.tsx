@@ -28,7 +28,7 @@ export default function MyPayments() {
                   {payments.map((p) => (
                     <tr key={p.id} className="hover:bg-gray-50/50">
                       <td className="px-4 py-3 font-medium text-gray-800">{p.playgroundName}</td>
-                      <td className="px-4 py-3 font-bold text-green-700">{p.amount} SAR</td>
+                      <td className="px-4 py-3 font-bold text-green-700">{p.amount} EGP</td>
                       <td className="px-4 py-3 font-mono text-xs text-gray-600">{p.referenceNumber}</td>
                       <td className="px-4 py-3"><StatusBadge status={p.status} /></td>
                       <td className="px-4 py-3 text-gray-500">{fmt(p.createdAt)}</td>

@@ -117,7 +117,7 @@ export default function MyPlaygrounds() {
                     </span>
                   </div>
                   <p className="text-xs text-gray-500 mb-3">{p.location}</p>
-                  <p className="font-bold text-green-700 text-sm mb-3">{p.pricePerHour} SAR/hr</p>
+                  <p className="font-bold text-green-700 text-sm mb-3">{p.pricePerHour} EGP/hr</p>
                   <div className="flex gap-2">
                     <button onClick={() => navigate(`/owner/playgrounds/${p.id}/slots`)} className="flex-1 flex items-center justify-center gap-1 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-xs font-medium">
                       <List size={14}/>{t('manageSlots')}

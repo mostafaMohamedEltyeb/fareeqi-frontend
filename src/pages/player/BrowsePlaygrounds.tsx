@@ -92,7 +92,7 @@ export default function BrowsePlaygrounds() {
                 </div>
                 <div className="flex items-center gap-1 mb-3">{stars(p.ratings || 0)}<span className="text-xs text-gray-500 ms-1">{p.ratings?.toFixed(1) || '0.0'}</span></div>
                 <div className="flex items-center justify-between">
-                  <span className="text-green-700 font-bold text-sm">{p.pricePerHour} SAR<span className="text-gray-400 font-normal text-xs">/hr</span></span>
+                  <span className="text-green-700 font-bold text-sm">{p.pricePerHour} EGP<span className="text-gray-400 font-normal text-xs">/hr</span></span>
                   <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">{p.sportType}</span>
                 </div>
               </div>

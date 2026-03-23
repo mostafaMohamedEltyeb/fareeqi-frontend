@@ -97,7 +97,7 @@ export default function PlaygroundDetail() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
             <div><p className="text-gray-400">{t('location')}</p><p className="font-medium flex items-center gap-1"><MapPin size={14} />{playground.location}</p></div>
             <div><p className="text-gray-400">{t('sportType')}</p><p className="font-medium">{playground.sportType}</p></div>
-            <div><p className="text-gray-400">{t('pricePerHour')}</p><p className="font-bold text-green-700">{playground.pricePerHour} SAR</p></div>
+            <div><p className="text-gray-400">{t('pricePerHour')}</p><p className="font-bold text-green-700">{playground.pricePerHour} EGP</p></div>
             <div><p className="text-gray-400">{t('rating')}</p>
               <div className="flex items-center gap-1">
                 {Array.from({ length: 5 }, (_, i) => <Star key={i} size={14} className={i < Math.round(playground.ratings || 0) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'} />)}
@@ -133,7 +133,7 @@ export default function PlaygroundDetail() {
                 <div className="flex items-center gap-4 text-sm">
                   <StatusBadge status={slot.status} />
                   <span className="text-gray-600">{fmt(slot.startTime)} → {fmt(slot.endTime)}</span>
-                  <span className="font-semibold text-green-700">{slot.pricePerHour} SAR</span>
+                  <span className="font-semibold text-green-700">{slot.pricePerHour} EGP</span>
                 </div>
                 {slot.status === 'AVAILABLE' && (
                   <button onClick={() => setBookingSlot(slot)} className="px-3 py-1.5 bg-green-600 text-white rounded-lg text-xs font-medium hover:bg-green-700 transition-colors">
@@ -152,7 +152,7 @@ export default function PlaygroundDetail() {
             <h3 className="font-bold text-gray-800 text-lg mb-3">{t('bookNow')}</h3>
             <p className="text-gray-600 text-sm mb-1">{playground.name}</p>
             <p className="text-gray-500 text-xs mb-4">{fmt(bookingSlot.startTime)} → {fmt(bookingSlot.endTime)}</p>
-            <p className="font-bold text-green-700 text-lg mb-5">{bookingSlot.pricePerHour} SAR</p>
+            <p className="font-bold text-green-700 text-lg mb-5">{bookingSlot.pricePerHour} EGP</p>
             <div className="flex gap-3">
               <button onClick={() => setBookingSlot(null)} className="flex-1 py-2 rounded-lg border border-gray-200 text-sm font-medium hover:bg-gray-50">{t('cancel')}</button>
               <button onClick={handleBook} disabled={bookingLoading} className="flex-1 py-2 rounded-lg bg-green-600 text-white text-sm font-medium hover:bg-green-700 disabled:opacity-50">
