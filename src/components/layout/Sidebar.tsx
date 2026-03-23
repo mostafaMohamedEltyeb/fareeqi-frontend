@@ -1,6 +1,8 @@
+import { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuthStore } from '../../store/authStore';
+import { getProfile } from '../../api/profile';
 import { LayoutDashboard, MapPin, CalendarDays, CreditCard, Users, Trophy, Swords, User, LogOut, X, Building2, ClipboardList, QrCode, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Props { open: boolean; onClose: () => void; }
@@ -10,6 +12,13 @@ export default function Sidebar({ open, onClose }: Props) {
   const { user, logout } = useAuthStore();
   const navigate = useNavigate();
   const isRTL = i18n.language === 'ar';
+  const [profileImageUrl, setProfileImageUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (user?.userType === 'PLAYER') {
+      getProfile().then((r) => setProfileImageUrl(r.data.profileImageUrl ?? null)).catch(() => {});
+    }
+  }, [user]);
 
   const playerNav = [
     { to: '/player/dashboard', icon: LayoutDashboard, label: t('dashboard') },
@@ -56,8 +65,11 @@ export default function Sidebar({ open, onClose }: Props) {
         </div>
         <div className="px-4 py-3 border-b border-green-700 bg-green-900/40">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-green-500 flex items-center justify-center text-sm font-bold flex-shrink-0">
-              {user?.username?.[0]?.toUpperCase()}
+            <div className="w-9 h-9 rounded-full bg-green-500 flex items-center justify-center text-sm font-bold flex-shrink-0 overflow-hidden">
+              {profileImageUrl
+                ? <img src={profileImageUrl} alt="avatar" className="w-full h-full object-cover" />
+                : user?.username?.[0]?.toUpperCase()
+              }
             </div>
             <div className="min-w-0">
               <p className="text-sm font-semibold truncate">{user?.username}</p>
