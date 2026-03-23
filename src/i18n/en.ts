@@ -75,5 +75,12 @@ const en = {
   subscriptionCreated: 'Subscription activated!', noSubscription: 'No active subscription',
   cancellationFeeWarning: 'A cancellation fee of EGP {{fee}} will be charged ({{percent}}% of booking price).',
   teamOptional: 'Team (optional)',
+  spotsAvailable: '{{count}} spots available', spotsFilled: '{{filled}} of {{total}} spots filled',
+  fullyBooked: 'Fully Booked', joinSlot: 'Book Your Spot', slotCapacity: 'Capacity',
+  whoIsJoining: 'Already joining', noPlayersYet: 'Be the first to book this slot!',
+  bookingPending: '⏳ Needs owner approval after booking',
+  capacityPreset: 'Capacity preset', solo: 'Solo (1)', padel: 'Padel (4)',
+  football5: '5-a-side (10)', football7: '7-a-side (14)', football11: '11-a-side (22)',
+  groupBookingHint: 'Multiple players can book this slot. Each player books and pays independently.',
 };
 export default en;

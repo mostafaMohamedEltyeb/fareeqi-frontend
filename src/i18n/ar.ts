@@ -79,5 +79,12 @@ const ar = {
   subscriptionCreated: 'تم تفعيل الاشتراك!', noSubscription: 'لا يوجد اشتراك نشط',
   cancellationFeeWarning: 'سيتم خصم رسوم إلغاء بقيمة {{fee}} جنيه ({{percent}}% من سعر الحجز).',
   teamOptional: 'الفريق (اختياري)',
+  spotsAvailable: '{{count}} مقعد متاح', spotsFilled: '{{filled}} من {{total}} مقعد محجوز',
+  fullyBooked: 'محجوز بالكامل', joinSlot: 'احجز مقعدك', slotCapacity: 'السعة',
+  whoIsJoining: 'سيلعب معك', noPlayersYet: 'كن أول من يحجز في هذه الفتحة!',
+  bookingPending: '⏳ يحتاج موافقة مالك الملعب بعد الحجز',
+  capacityPreset: 'سعة مسبقة', solo: 'منفرد (1)', padel: 'بادل (4)',
+  football5: 'كرة خماسية (10)', football7: 'كرة سباعية (14)', football11: 'كرة قدم (22)',
+  groupBookingHint: 'يمكن لعدة لاعبين حجز هذه الفتحة. كل لاعب يحجز ويدفع بشكل مستقل.',
 };
 export default ar;

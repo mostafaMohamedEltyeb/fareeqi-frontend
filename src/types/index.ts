@@ -23,6 +23,10 @@ export interface SlotResponse {
   endTime: string;
   status: SlotStatus;
   pricePerHour: number;
+  capacity: number;
+  currentParticipants: number;
+  availableSpots: number;
+  participantUsernames: string[];
 }
 
 export interface PlaygroundResponse {
