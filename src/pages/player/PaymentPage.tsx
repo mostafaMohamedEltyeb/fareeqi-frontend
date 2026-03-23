@@ -4,7 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { initiatePayment, confirmPayment, cancelPaymentApi } from '../../api/payments';
 import { validateVoucher } from '../../api/vouchers';
 import { getBookingById } from '../../api/bookings';
-import type { PaymentResponse, BookingResponse, VoucherValidationResponse } from '../../types';
+import { getSettings } from '../../api/settings';
+import type { PaymentResponse, BookingResponse, VoucherValidationResponse, AppSettingsResponse } from '../../types';
 import toast from 'react-hot-toast';
 import { CreditCard, CheckCircle, ArrowLeft, ArrowRight, Lock, Tag, X } from 'lucide-react';
 
@@ -20,11 +21,13 @@ export default function PaymentPage() {
   const [voucherInput, setVoucherInput] = useState('');
   const [appliedVoucher, setAppliedVoucher] = useState<VoucherValidationResponse | null>(null);
   const [voucherLoading, setVoucherLoading] = useState(false);
+  const [settings, setSettings] = useState<AppSettingsResponse | null>(null);
   const isRTL = i18n.language === 'ar';
 
   useEffect(() => {
     if (!bookingId) return;
     getBookingById(Number(bookingId)).then(r => setBooking(r.data)).catch(() => {});
+    getSettings().then(r => setSettings(r.data)).catch(() => {});
   }, [bookingId]);
   const BackIcon = isRTL ? ArrowRight : ArrowLeft;
 
@@ -71,6 +74,7 @@ export default function PaymentPage() {
   };
 
   const baseAmount = booking?.slotPricePerHour ?? 0;
+  const feePercent = settings?.platformFeePercent ?? 5;
 
   return (
     <div className="max-w-md mx-auto space-y-6" dir={isRTL ? 'rtl' : 'ltr'}>
@@ -118,28 +122,32 @@ export default function PaymentPage() {
           </div>
 
           {/* Price breakdown */}
-          <div className="bg-gray-50 rounded-xl p-4 space-y-2 text-sm">
-            <div className="flex justify-between text-gray-600">
-              <span>{t('baseFee')}</span>
-              <span>EGP {baseAmount.toFixed(2)}</span>
-            </div>
-            <div className="flex justify-between text-gray-500 text-xs">
-              <span>{t('platformFee')} (5%)</span>
-              <span>+ EGP {(baseAmount * 0.05).toFixed(2)}</span>
-            </div>
-            {appliedVoucher && (
-              <div className="flex justify-between text-green-600 text-xs">
-                <span>{t('discount')}</span>
-                <span>- EGP {appliedVoucher.discountAmount.toFixed(2)}</span>
+          {!booking ? (
+            <div className="bg-gray-50 rounded-xl p-4 text-center text-gray-400 text-sm">{t('loading')}</div>
+          ) : (
+            <div className="bg-gray-50 rounded-xl p-4 space-y-2 text-sm">
+              <div className="flex justify-between text-gray-600">
+                <span>{t('baseFee')}</span>
+                <span>EGP {baseAmount.toFixed(2)}</span>
               </div>
-            )}
-            <div className="border-t border-gray-200 pt-2 flex justify-between font-bold text-gray-800">
-              <span>{t('totalAmount')}</span>
-              <span className="text-green-700">
-                EGP {appliedVoucher ? appliedVoucher.newTotal.toFixed(2) : (baseAmount * 1.05).toFixed(2)}
-              </span>
+              <div className="flex justify-between text-gray-500 text-xs">
+                <span>{t('platformFee')} ({feePercent}%)</span>
+                <span>+ EGP {(baseAmount * feePercent / 100).toFixed(2)}</span>
+              </div>
+              {appliedVoucher && (
+                <div className="flex justify-between text-green-600 text-xs">
+                  <span>{t('discount')}</span>
+                  <span>- EGP {appliedVoucher.discountAmount.toFixed(2)}</span>
+                </div>
+              )}
+              <div className="border-t border-gray-200 pt-2 flex justify-between font-bold text-gray-800">
+                <span>{t('totalAmount')}</span>
+                <span className="text-green-700">
+                  EGP {appliedVoucher ? appliedVoucher.newTotal.toFixed(2) : (baseAmount * (1 + feePercent / 100)).toFixed(2)}
+                </span>
+              </div>
             </div>
-          </div>
+          )}
 
           <button onClick={handleInitiate} disabled={loading} className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-xl transition-colors disabled:opacity-50 flex items-center justify-center gap-2">
             <CreditCard size={20} />{loading ? t('loading') : t('proceedToPay')}
