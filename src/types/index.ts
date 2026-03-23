@@ -79,6 +79,27 @@ export interface PaymentResponse {
   paidAt: string | null;
 }
 
+export interface PeriodRevenueResponse {
+  label: string;
+  revenue: number;
+  bookingCount: number;
+}
+
+export interface PlaygroundRevenueResponse {
+  playgroundId: number;
+  playgroundName: string;
+  revenue: number;
+  bookingCount: number;
+}
+
+export interface FinanceSummaryResponse {
+  totalRevenue: number;
+  totalPaidBookings: number;
+  averageBookingAmount: number;
+  periodBreakdown: PeriodRevenueResponse[];
+  playgroundBreakdown: PlaygroundRevenueResponse[];
+}
+
 export interface TeamResponse {
   id: number;
   captainId: number;
