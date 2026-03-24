@@ -221,35 +221,23 @@ export default function AdminFinance() {
                       <th className="px-5 py-3 text-end font-medium text-gray-500">{isRTL ? 'حجم المعاملات' : 'Volume'}</th>
                       <th className="px-5 py-3 text-end font-medium text-gray-500">{isRTL ? 'صافي مالك الملعب' : 'Owner Net'}</th>
                       <th className="px-5 py-3 text-end font-medium text-gray-500">{isRTL ? 'رسوم المنصة' : 'Platform Fees'}</th>
-                      <th className="px-5 py-3 text-end font-medium text-gray-500">{t('shareLabel')}</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-50">
-                    {data.playgroundBreakdown.map((pg, i) => {
-                      const share = volume > 0 ? ((Number(pg.revenue) / volume) * 100).toFixed(1) : '0.0';
-                      return (
-                        <tr key={pg.playgroundId} className="hover:bg-gray-50 transition-colors">
-                          <td className="px-5 py-3">
-                            <div className="flex items-center gap-2">
-                              <span className="w-6 h-6 rounded-full bg-green-100 text-green-700 text-xs font-bold flex items-center justify-center flex-shrink-0">{i + 1}</span>
-                              <span className="font-medium text-gray-800">{pg.playgroundName}</span>
-                            </div>
-                          </td>
-                          <td className="px-5 py-3 text-end text-gray-600">{pg.bookingCount}</td>
-                          <td className="px-5 py-3 text-end text-gray-700">{fmt(pg.revenue)}</td>
-                          <td className="px-5 py-3 text-end text-gray-600">{fmt(pg.netIncome)}</td>
-                          <td className="px-5 py-3 text-end font-semibold text-emerald-600">+ {fmt(pg.platformFees)}</td>
-                          <td className="px-5 py-3 text-end">
-                            <div className="flex items-center justify-end gap-2">
-                              <div className="w-16 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                                <div className="h-full bg-green-500 rounded-full" style={{ width: `${share}%` }} />
-                              </div>
-                              <span className="text-xs text-gray-500 w-8">{share}%</span>
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })}
+                    {data.playgroundBreakdown.map((pg, i) => (
+                      <tr key={pg.playgroundId} className="hover:bg-gray-50 transition-colors">
+                        <td className="px-5 py-3">
+                          <div className="flex items-center gap-2">
+                            <span className="w-6 h-6 rounded-full bg-green-100 text-green-700 text-xs font-bold flex items-center justify-center flex-shrink-0">{i + 1}</span>
+                            <span className="font-medium text-gray-800">{pg.playgroundName}</span>
+                          </div>
+                        </td>
+                        <td className="px-5 py-3 text-end text-gray-600">{pg.bookingCount}</td>
+                        <td className="px-5 py-3 text-end text-gray-700">{fmt(pg.revenue)}</td>
+                        <td className="px-5 py-3 text-end text-gray-600">{fmt(pg.netIncome)}</td>
+                        <td className="px-5 py-3 text-end font-semibold text-emerald-600">+ {fmt(pg.platformFees)}</td>
+                      </tr>
+                    ))}
                   </tbody>
                   <tfoot className="bg-gray-50 border-t-2 border-gray-200">
                     <tr>
@@ -258,7 +246,6 @@ export default function AdminFinance() {
                       <td className="px-5 py-3 text-end font-semibold text-gray-700">{fmt(volume)}</td>
                       <td className="px-5 py-3 text-end font-semibold text-gray-600">{fmt(volume - fees)}</td>
                       <td className="px-5 py-3 text-end font-bold text-emerald-600">+ {fmt(fees)}</td>
-                      <td className="px-5 py-3 text-end text-gray-500 text-xs">100%</td>
                     </tr>
                   </tfoot>
                 </table>

@@ -208,7 +208,9 @@ export default function OwnerFinance() {
           </div>
 
           {/* ── Playground breakdown table ────────────────────────────────── */}
-          {data?.playgroundBreakdown?.length ? (
+          {data?.playgroundBreakdown?.length ? (() => {
+            const hasSubCosts = subCosts > 0;
+            return (
             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
               <div className="px-5 py-4 border-b border-gray-100">
                 <h3 className="font-semibold text-gray-700">{t('revenueByPlayground')}</h3>
@@ -221,36 +223,26 @@ export default function OwnerFinance() {
                       <th className="px-5 py-3 text-end font-medium text-gray-500">{t('paidBookings')}</th>
                       <th className="px-5 py-3 text-end font-medium text-gray-500">{isRTL ? 'إجمالي الإيرادات' : 'Gross Revenue'}</th>
                       <th className="px-5 py-3 text-end font-medium text-gray-500">{isRTL ? 'رسوم المنصة' : 'Platform Fees'}</th>
+                      {hasSubCosts && <th className="px-5 py-3 text-end font-medium text-gray-500">{isRTL ? 'تكلفة الاشتراك' : 'Subscription'}</th>}
                       <th className="px-5 py-3 text-end font-medium text-gray-500">{isRTL ? 'صافي الدخل' : 'Net Income'}</th>
-                      <th className="px-5 py-3 text-end font-medium text-gray-500">{t('shareLabel')}</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-50">
-                    {data.playgroundBreakdown.map((pg, i) => {
-                      const share = gross > 0 ? ((Number(pg.revenue) / gross) * 100).toFixed(1) : '0.0';
-                      return (
-                        <tr key={pg.playgroundId} className="hover:bg-gray-50 transition-colors">
-                          <td className="px-5 py-3">
-                            <div className="flex items-center gap-2">
-                              <span className="w-6 h-6 rounded-full bg-green-100 text-green-700 text-xs font-bold flex items-center justify-center flex-shrink-0">{i + 1}</span>
-                              <span className="font-medium text-gray-800">{pg.playgroundName}</span>
-                            </div>
-                          </td>
-                          <td className="px-5 py-3 text-end text-gray-600">{pg.bookingCount}</td>
-                          <td className="px-5 py-3 text-end text-gray-700">{fmt(pg.revenue)}</td>
-                          <td className="px-5 py-3 text-end text-red-500">− {fmt(pg.platformFees)}</td>
-                          <td className="px-5 py-3 text-end font-semibold text-green-700">{fmt(pg.netIncome)}</td>
-                          <td className="px-5 py-3 text-end">
-                            <div className="flex items-center justify-end gap-2">
-                              <div className="w-16 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                                <div className="h-full bg-green-500 rounded-full" style={{ width: `${share}%` }} />
-                              </div>
-                              <span className="text-xs text-gray-500 w-8">{share}%</span>
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })}
+                    {data.playgroundBreakdown.map((pg, i) => (
+                      <tr key={pg.playgroundId} className="hover:bg-gray-50 transition-colors">
+                        <td className="px-5 py-3">
+                          <div className="flex items-center gap-2">
+                            <span className="w-6 h-6 rounded-full bg-green-100 text-green-700 text-xs font-bold flex items-center justify-center flex-shrink-0">{i + 1}</span>
+                            <span className="font-medium text-gray-800">{pg.playgroundName}</span>
+                          </div>
+                        </td>
+                        <td className="px-5 py-3 text-end text-gray-600">{pg.bookingCount}</td>
+                        <td className="px-5 py-3 text-end text-gray-700">{fmt(pg.revenue)}</td>
+                        <td className="px-5 py-3 text-end text-red-500">− {fmt(pg.platformFees)}</td>
+                        {hasSubCosts && <td className="px-5 py-3 text-end text-yellow-600">− {fmt(pg.subscriptionCosts ?? 0)}</td>}
+                        <td className="px-5 py-3 text-end font-semibold text-green-700">{fmt(pg.netIncome)}</td>
+                      </tr>
+                    ))}
                   </tbody>
                   <tfoot className="bg-gray-50 border-t-2 border-gray-200">
                     <tr>
@@ -258,14 +250,15 @@ export default function OwnerFinance() {
                       <td className="px-5 py-3 text-end font-semibold text-gray-700">{data.totalPaidBookings}</td>
                       <td className="px-5 py-3 text-end font-semibold text-gray-700">{fmt(gross)}</td>
                       <td className="px-5 py-3 text-end font-semibold text-red-500">− {fmt(platformFees)}</td>
-                      <td className="px-5 py-3 text-end font-bold text-green-700">{fmt(gross - platformFees)}</td>
-                      <td className="px-5 py-3 text-end text-gray-500 text-xs">100%</td>
+                      {hasSubCosts && <td className="px-5 py-3 text-end font-semibold text-yellow-600">− {fmt(subCosts)}</td>}
+                      <td className="px-5 py-3 text-end font-bold text-green-700">{fmt(net)}</td>
                     </tr>
                   </tfoot>
                 </table>
               </div>
             </div>
-          ) : null}
+            );
+          })() : null}
         </>
       )}
     </div>

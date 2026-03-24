@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { getSlots, createSlot, updateSlot, deleteSlot } from '../../api/playgrounds';
+import { getSlots, createSlot, updateSlot, deleteSlot, getPlaygroundById } from '../../api/playgrounds';
 import type { SlotResponse } from '../../types';
 import StatusBadge from '../../components/shared/StatusBadge';
 import LoadingSkeleton from '../../components/shared/LoadingSkeleton';
@@ -11,13 +11,16 @@ import { Plus, Pencil, Trash2, ArrowLeft, ArrowRight, Users } from 'lucide-react
 
 const emptyForm = { startTime: '', endTime: '', pricePerHour: '', capacity: '1', status: 'AVAILABLE' };
 
-const PRESETS = [
-  { key: 'solo', value: 1 },
-  { key: 'padel', value: 4 },
-  { key: 'football5', value: 10 },
-  { key: 'football7', value: 14 },
-  { key: 'football11', value: 22 },
-];
+const PRESETS_BY_SPORT: Record<string, { key: string; value: number }[]> = {
+  PADEL: [
+    { key: 'padel', value: 4 },
+  ],
+  FOOTBALL: [
+    { key: 'football5', value: 10 },
+    { key: 'football7', value: 14 },
+    { key: 'football11', value: 22 },
+  ],
+};
 
 export default function SlotManagement() {
   const { t, i18n } = useTranslation();
@@ -30,11 +33,17 @@ export default function SlotManagement() {
   const [form, setForm] = useState<any>(emptyForm);
   const [saving, setSaving] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
+  const [sportType, setSportType] = useState<string>('');
   const isRTL = i18n.language === 'ar';
   const BackIcon = isRTL ? ArrowRight : ArrowLeft;
 
   const fetch = () => { if (playgroundId) { setLoading(true); getSlots(Number(playgroundId)).then((r) => setSlots(r.data)).finally(() => setLoading(false)); } };
-  useEffect(() => { fetch(); }, [playgroundId]);
+  useEffect(() => {
+    fetch();
+    if (playgroundId) getPlaygroundById(Number(playgroundId)).then((r) => setSportType(r.data.sportType));
+  }, [playgroundId]);
+
+  const presets = PRESETS_BY_SPORT[sportType] ?? [];
 
   const handleSave = async () => {
     if (!playgroundId) return;
@@ -130,7 +139,7 @@ export default function SlotManagement() {
               <div>
                 <label className="block text-xs font-medium text-gray-600 mb-1">{t('slotCapacity')}</label>
                 <div className="flex flex-wrap gap-1.5 mb-2">
-                  {PRESETS.map(p => (
+                  {presets.map(p => (
                     <button key={p.key} type="button"
                       onClick={() => setForm({ ...form, capacity: String(p.value) })}
                       className={`px-2.5 py-1 rounded-lg text-xs font-medium border transition-colors ${String(form.capacity) === String(p.value) ? 'bg-green-600 text-white border-green-600' : 'bg-white text-gray-600 border-gray-200 hover:border-green-400'}`}>
