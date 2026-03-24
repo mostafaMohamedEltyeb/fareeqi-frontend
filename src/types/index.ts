@@ -153,6 +153,9 @@ export interface FinanceSummaryResponse {
   averageBookingAmount: number;
   periodBreakdown: PeriodRevenueResponse[];
   playgroundBreakdown: PlaygroundRevenueResponse[];
+  totalPlatformFees?: number;
+  totalSubscriptionCosts?: number;
+  netProfit?: number;
 }
 
 export interface TeamResponse {
