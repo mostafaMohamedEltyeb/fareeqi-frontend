@@ -144,6 +144,8 @@ export interface PlaygroundRevenueResponse {
   playgroundId: number;
   playgroundName: string;
   revenue: number;
+  platformFees: number;
+  netIncome: number;
   bookingCount: number;
 }
 

@@ -218,7 +218,9 @@ export default function AdminFinance() {
                     <tr>
                       <th className="px-5 py-3 text-start font-medium text-gray-500">{t('playground')}</th>
                       <th className="px-5 py-3 text-end font-medium text-gray-500">{t('paidBookings')}</th>
-                      <th className="px-5 py-3 text-end font-medium text-gray-500">{t('totalRevenue')}</th>
+                      <th className="px-5 py-3 text-end font-medium text-gray-500">{isRTL ? 'حجم المعاملات' : 'Volume'}</th>
+                      <th className="px-5 py-3 text-end font-medium text-gray-500">{isRTL ? 'صافي مالك الملعب' : 'Owner Net'}</th>
+                      <th className="px-5 py-3 text-end font-medium text-gray-500">{isRTL ? 'رسوم المنصة' : 'Platform Fees'}</th>
                       <th className="px-5 py-3 text-end font-medium text-gray-500">{t('shareLabel')}</th>
                     </tr>
                   </thead>
@@ -234,7 +236,9 @@ export default function AdminFinance() {
                             </div>
                           </td>
                           <td className="px-5 py-3 text-end text-gray-600">{pg.bookingCount}</td>
-                          <td className="px-5 py-3 text-end font-semibold text-green-700">{fmt(pg.revenue)}</td>
+                          <td className="px-5 py-3 text-end text-gray-700">{fmt(pg.revenue)}</td>
+                          <td className="px-5 py-3 text-end text-gray-600">{fmt(pg.netIncome)}</td>
+                          <td className="px-5 py-3 text-end font-semibold text-emerald-600">+ {fmt(pg.platformFees)}</td>
                           <td className="px-5 py-3 text-end">
                             <div className="flex items-center justify-end gap-2">
                               <div className="w-16 h-1.5 bg-gray-100 rounded-full overflow-hidden">
@@ -247,11 +251,13 @@ export default function AdminFinance() {
                       );
                     })}
                   </tbody>
-                  <tfoot className="bg-gray-50 border-t border-gray-100">
+                  <tfoot className="bg-gray-50 border-t-2 border-gray-200">
                     <tr>
-                      <td className="px-5 py-3 font-semibold text-gray-700">{t('totalBookings')}</td>
+                      <td className="px-5 py-3 font-semibold text-gray-700">{isRTL ? 'الإجمالي' : 'Total'}</td>
                       <td className="px-5 py-3 text-end font-semibold text-gray-700">{data.totalPaidBookings}</td>
-                      <td className="px-5 py-3 text-end font-bold text-green-700">{fmt(volume)}</td>
+                      <td className="px-5 py-3 text-end font-semibold text-gray-700">{fmt(volume)}</td>
+                      <td className="px-5 py-3 text-end font-semibold text-gray-600">{fmt(volume - fees)}</td>
+                      <td className="px-5 py-3 text-end font-bold text-emerald-600">+ {fmt(fees)}</td>
                       <td className="px-5 py-3 text-end text-gray-500 text-xs">100%</td>
                     </tr>
                   </tfoot>
