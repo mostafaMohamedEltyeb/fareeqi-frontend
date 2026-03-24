@@ -1,6 +1,7 @@
 import api from './axios';
 
 export const getMySubscriptions = () => api.get('/api/v1/subscriptions/my');
+export const getMySubscriptionHistory = () => api.get('/api/v1/subscriptions/my/history');
 export const getAllSubscriptions = () => api.get('/api/v1/subscriptions');
 export const subscribePlayground = (playgroundId: number, months: number) =>
   api.post('/api/v1/subscriptions', { playgroundId, months });
