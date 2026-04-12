@@ -16,6 +16,10 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (res) => res,
   (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('token');
+      window.location.href = '/login';
+    }
     const msg = error.response?.data?.messageAr || error.response?.data?.message || 'حدث خطأ غير متوقع';
     return Promise.reject({ ...error, displayMessage: msg });
   }
