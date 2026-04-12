@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuthStore } from '../../store/authStore';
 import { getProfile } from '../../api/profile';
-import { LayoutDashboard, MapPin, CalendarDays, CreditCard, Users, Trophy, Swords, User, LogOut, X, Building2, ClipboardList, QrCode, ChevronLeft, ChevronRight, TrendingUp, Tag, Settings2, Sparkles, MessageSquareWarning } from 'lucide-react';
+import { LayoutDashboard, MapPin, CalendarDays, CreditCard, Users, Trophy, Swords, User, LogOut, X, Building2, ClipboardList, QrCode, ChevronLeft, ChevronRight, TrendingUp, Tag, Settings2, Sparkles, MessageSquareWarning, Megaphone } from 'lucide-react';
 
 interface Props { open: boolean; onClose: () => void; }
 
@@ -48,6 +48,7 @@ export default function Sidebar({ open, onClose }: Props) {
     { to: '/admin/vouchers', icon: Tag, label: t('vouchers') },
     { to: '/admin/settings', icon: Settings2, label: t('platformSettings') },
     { to: '/admin/complaints', icon: MessageSquareWarning, label: t('complaintsManagement') },
+    { to: '/admin/announcements', icon: Megaphone, label: t('announcementsManagement') },
   ];
 
   const navItems = user?.userType === 'PLAYER' ? playerNav : user?.userType === 'FIELD_OWNER' ? ownerNav : adminNav;

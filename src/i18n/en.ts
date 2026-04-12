@@ -89,5 +89,10 @@ const en = {
   ownerComplaintsSubtitle: 'Submit complaints against players and track admin responses',
   complaintsManagement: 'Complaints Management', complaintsManagementSubtitle: 'Review and respond to all complaints',
   optional: 'optional', playgroundId: 'Playground ID',
+  announcementsManagement: 'Announcements', announcementsSubtitle: 'Broadcast discount announcements to users and owners',
+  newAnnouncement: 'New Announcement', editAnnouncement: 'Edit Announcement',
+  announcementTitle: 'Title', announcementMessage: 'Message',
+  discountCode: 'Discount Code', targetAudience: 'Target Audience',
+  badgeColor: 'Badge Color', publish: 'Publish', startDate: 'Start Date', endDate: 'End Date',
 };
 export default en;

@@ -93,5 +93,10 @@ const ar = {
   ownerComplaintsSubtitle: 'قدّم شكوى ضد لاعب وتابع ردود الإدارة',
   complaintsManagement: 'إدارة الشكاوى', complaintsManagementSubtitle: 'راجع جميع الشكاوى وردّ عليها',
   optional: 'اختياري', playgroundId: 'رقم الملعب',
+  announcementsManagement: 'الإعلانات', announcementsSubtitle: 'أنشئ إعلانات وخصومات للمستخدمين والملاك',
+  newAnnouncement: 'إعلان جديد', editAnnouncement: 'تعديل الإعلان',
+  announcementTitle: 'عنوان الإعلان', announcementMessage: 'نص الإعلان',
+  discountCode: 'كود الخصم', targetAudience: 'الجمهور المستهدف',
+  badgeColor: 'لون الشارة', publish: 'نشر', startDate: 'تاريخ البداية', endDate: 'تاريخ الانتهاء',
 };
 export default ar;

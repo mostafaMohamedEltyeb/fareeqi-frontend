@@ -30,6 +30,7 @@ import OwnerSubscription from '../pages/owner/OwnerSubscription';
 import MyComplaints from '../pages/player/MyComplaints';
 import OwnerComplaints from '../pages/owner/OwnerComplaints';
 import ComplaintsManagement from '../pages/admin/ComplaintsManagement';
+import AnnouncementsManagement from '../pages/admin/AnnouncementsManagement';
 
 function Guard({ children, roles }: { children: React.ReactNode; roles?: string[] }) {
   const user = useAuthStore((s) => s.user);
@@ -73,6 +74,7 @@ const router = createBrowserRouter([
       { path: 'admin/vouchers', element: <Guard roles={['ADMIN']}><VoucherManagement /></Guard> },
       { path: 'admin/settings', element: <Guard roles={['ADMIN']}><PlatformSettings /></Guard> },
       { path: 'admin/complaints', element: <Guard roles={['ADMIN']}><ComplaintsManagement /></Guard> },
+      { path: 'admin/announcements', element: <Guard roles={['ADMIN']}><AnnouncementsManagement /></Guard> },
       { path: '*', element: <Navigate to="/login" replace /> },
     ],
   },

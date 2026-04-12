@@ -1,5 +1,21 @@
 export type UserType = 'PLAYER' | 'FIELD_OWNER' | 'ADMIN';
 export type ComplaintStatus = 'PENDING' | 'IN_REVIEW' | 'RESOLVED' | 'CLOSED';
+export type AnnouncementTarget = 'ALL' | 'PLAYERS' | 'OWNERS';
+export type BadgeColor = 'green' | 'blue' | 'orange' | 'red';
+
+export interface AnnouncementResponse {
+  id: number;
+  title: string;
+  message: string;
+  voucherCode?: string;
+  badgeColor: BadgeColor;
+  targetAudience: AnnouncementTarget;
+  startDate?: string;
+  endDate?: string;
+  active: boolean;
+  createdAt: string;
+  updatedAt?: string;
+}
 export type ComplaintType = 'PLAYER_COMPLAINT' | 'OWNER_COMPLAINT';
 
 export interface ComplaintResponse {
