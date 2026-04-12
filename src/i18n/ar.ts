@@ -86,5 +86,12 @@ const ar = {
   capacityPreset: 'سعة مسبقة', solo: 'منفرد (1)', padel: 'بادل (4)',
   football5: 'كرة خماسية (10)', football7: 'كرة سباعية (14)', football11: 'كرة قدم (22)',
   groupBookingHint: 'يمكن لعدة لاعبين حجز هذه الفتحة. كل لاعب يحجز ويدفع بشكل مستقل.',
+  myComplaints: 'شكاواي', newComplaint: 'شكوى جديدة', complaintSubject: 'موضوع الشكوى',
+  complaintDescription: 'تفاصيل الشكوى', submitComplaint: 'إرسال الشكوى',
+  noComplaints: 'لا توجد شكاوى', noComplaintsHint: 'اضغط على "شكوى جديدة" لتقديم شكوى',
+  complaintsSubtitle: 'تتبع شكاواك ورد الإدارة عليها',
+  ownerComplaintsSubtitle: 'قدّم شكوى ضد لاعب وتابع ردود الإدارة',
+  complaintsManagement: 'إدارة الشكاوى', complaintsManagementSubtitle: 'راجع جميع الشكاوى وردّ عليها',
+  optional: 'اختياري', playgroundId: 'رقم الملعب',
 };
 export default ar;

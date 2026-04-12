@@ -27,6 +27,9 @@ import VoucherManagement from '../pages/admin/VoucherManagement';
 import PlatformSettings from '../pages/admin/PlatformSettings';
 import OwnerFinance from '../pages/owner/OwnerFinance';
 import OwnerSubscription from '../pages/owner/OwnerSubscription';
+import MyComplaints from '../pages/player/MyComplaints';
+import OwnerComplaints from '../pages/owner/OwnerComplaints';
+import ComplaintsManagement from '../pages/admin/ComplaintsManagement';
 
 function Guard({ children, roles }: { children: React.ReactNode; roles?: string[] }) {
   const user = useAuthStore((s) => s.user);
@@ -53,6 +56,7 @@ const router = createBrowserRouter([
       { path: 'player/teams', element: <Guard roles={['PLAYER']}><TeamsPage /></Guard> },
       { path: 'player/matches', element: <Guard roles={['PLAYER']}><MatchesPage /></Guard> },
       { path: 'player/profile', element: <Guard roles={['PLAYER']}><PlayerProfile /></Guard> },
+      { path: 'player/complaints', element: <Guard roles={['PLAYER']}><MyComplaints /></Guard> },
       { path: 'owner/dashboard', element: <Guard roles={['FIELD_OWNER']}><OwnerDashboard /></Guard> },
       { path: 'owner/playgrounds', element: <Guard roles={['FIELD_OWNER']}><MyPlaygrounds /></Guard> },
       { path: 'owner/playgrounds/:playgroundId/slots', element: <Guard roles={['FIELD_OWNER']}><SlotManagement /></Guard> },
@@ -60,6 +64,7 @@ const router = createBrowserRouter([
       { path: 'owner/verify', element: <Guard roles={['FIELD_OWNER']}><VerifyBooking /></Guard> },
       { path: 'owner/finance', element: <Guard roles={['FIELD_OWNER']}><OwnerFinance /></Guard> },
       { path: 'owner/subscription', element: <Guard roles={['FIELD_OWNER']}><OwnerSubscription /></Guard> },
+      { path: 'owner/complaints', element: <Guard roles={['FIELD_OWNER']}><OwnerComplaints /></Guard> },
       { path: 'admin/dashboard', element: <Guard roles={['ADMIN']}><AdminDashboard /></Guard> },
       { path: 'admin/users', element: <Guard roles={['ADMIN']}><UserManagement /></Guard> },
       { path: 'admin/bookings', element: <Guard roles={['ADMIN']}><AllBookings /></Guard> },
@@ -67,6 +72,7 @@ const router = createBrowserRouter([
       { path: 'admin/finance', element: <Guard roles={['ADMIN']}><AdminFinance /></Guard> },
       { path: 'admin/vouchers', element: <Guard roles={['ADMIN']}><VoucherManagement /></Guard> },
       { path: 'admin/settings', element: <Guard roles={['ADMIN']}><PlatformSettings /></Guard> },
+      { path: 'admin/complaints', element: <Guard roles={['ADMIN']}><ComplaintsManagement /></Guard> },
       { path: '*', element: <Navigate to="/login" replace /> },
     ],
   },

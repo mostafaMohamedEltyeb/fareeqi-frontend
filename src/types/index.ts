@@ -1,4 +1,23 @@
 export type UserType = 'PLAYER' | 'FIELD_OWNER' | 'ADMIN';
+export type ComplaintStatus = 'PENDING' | 'IN_REVIEW' | 'RESOLVED' | 'CLOSED';
+export type ComplaintType = 'PLAYER_COMPLAINT' | 'OWNER_COMPLAINT';
+
+export interface ComplaintResponse {
+  id: number;
+  complainantId: number;
+  complainantUsername: string;
+  complaintType: ComplaintType;
+  subject: string;
+  description: string;
+  targetUserId?: number;
+  targetUsername?: string;
+  targetPlaygroundId?: number;
+  targetPlaygroundName?: string;
+  status: ComplaintStatus;
+  adminComment?: string;
+  createdAt: string;
+  updatedAt?: string;
+}
 export type SportType = 'FOOTBALL' | 'PADEL';
 export type SlotStatus = 'AVAILABLE' | 'RESERVED' | 'DISABLED';
 export type BookingStatus = 'PENDING' | 'APPROVED' | 'REJECTED' | 'CANCELLED' | 'CHECKED_IN';

@@ -82,5 +82,12 @@ const en = {
   capacityPreset: 'Capacity preset', solo: 'Solo (1)', padel: 'Padel (4)',
   football5: '5-a-side (10)', football7: '7-a-side (14)', football11: '11-a-side (22)',
   groupBookingHint: 'Multiple players can book this slot. Each player books and pays independently.',
+  myComplaints: 'My Complaints', newComplaint: 'New Complaint', complaintSubject: 'Subject',
+  complaintDescription: 'Description', submitComplaint: 'Submit Complaint',
+  noComplaints: 'No complaints yet', noComplaintsHint: 'Click "New Complaint" to submit one',
+  complaintsSubtitle: 'Track your complaints and admin responses',
+  ownerComplaintsSubtitle: 'Submit complaints against players and track admin responses',
+  complaintsManagement: 'Complaints Management', complaintsManagementSubtitle: 'Review and respond to all complaints',
+  optional: 'optional', playgroundId: 'Playground ID',
 };
 export default en;
