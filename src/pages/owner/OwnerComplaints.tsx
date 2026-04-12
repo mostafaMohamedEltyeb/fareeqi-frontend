@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { createComplaint, getMyComplaints } from '../../api/complaints';
 import type { ComplaintResponse } from '../../types';
+import { fmtDate, fmtDateTime } from '../../utils/date';
 import toast from 'react-hot-toast';
 import { Plus, X, MessageSquare, Clock, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
 import LoadingSkeleton from '../../components/shared/LoadingSkeleton';
@@ -58,7 +59,7 @@ export default function OwnerComplaints() {
     }
   };
 
-  const fmt = (dt: string) => new Date(dt).toLocaleDateString(isRTL ? 'ar-EG' : 'en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+  const fmt = fmtDate;
 
   if (loading) return <LoadingSkeleton rows={6} />;
 
@@ -235,7 +236,7 @@ export default function OwnerComplaints() {
 
             <div className="text-xs text-gray-400">
               {isRTL ? 'تاريخ الإرسال: ' : 'Submitted: '}
-              {new Date(selected.createdAt).toLocaleString(isRTL ? 'ar-EG' : 'en-US')}
+              {fmtDateTime(selected.createdAt)}
             </div>
 
             <button

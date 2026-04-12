@@ -4,6 +4,7 @@ import {
   getAllAnnouncements, createAnnouncement, updateAnnouncement, deleteAnnouncement,
 } from '../../api/announcements';
 import type { AnnouncementResponse, AnnouncementTarget, BadgeColor } from '../../types';
+import { fmtDate } from '../../utils/date';
 import toast from 'react-hot-toast';
 import {
   Plus, X, Pencil, Trash2, Megaphone, Tag, ToggleLeft, ToggleRight, Eye, EyeOff,
@@ -134,7 +135,7 @@ export default function AnnouncementsManagement() {
   };
 
   const fmt = (dt?: string) =>
-    dt ? new Date(dt).toLocaleDateString(isRTL ? 'ar-EG' : 'en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : '—';
+    dt ? fmtDate(dt) : '—';
 
   if (loading) return <LoadingSkeleton rows={6} />;
 

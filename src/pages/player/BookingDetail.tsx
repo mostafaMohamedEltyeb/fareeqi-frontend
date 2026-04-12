@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { getBookingById } from '../../api/bookings';
+import { fmtDateTime } from '../../utils/date';
 import type { BookingResponse } from '../../types';
 import StatusBadge from '../../components/shared/StatusBadge';
 import LoadingSkeleton from '../../components/shared/LoadingSkeleton';
@@ -23,7 +24,7 @@ export default function BookingDetail() {
     if (bookingId) getBookingById(Number(bookingId)).then((r) => setBooking(r.data)).finally(() => setLoading(false));
   }, [bookingId]);
 
-  const fmt = (dt: string) => { try { return new Date(dt).toLocaleString(isRTL ? 'ar-SA' : 'en-US', { dateStyle: 'medium', timeStyle: 'short' }); } catch { return dt; } };
+  const fmt = fmtDateTime;
   const copy = () => { if (booking) { navigator.clipboard.writeText(booking.qrCode); setCopied(true); setTimeout(() => setCopied(false), 2000); } };
 
   if (loading) return <LoadingSkeleton rows={6} />;

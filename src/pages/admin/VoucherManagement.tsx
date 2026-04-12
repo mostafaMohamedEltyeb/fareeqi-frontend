@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getVouchers, createVoucher, deleteVoucher, toggleVoucher } from '../../api/vouchers';
 import type { VoucherResponse, DiscountType } from '../../types';
+import { fmtDate } from '../../utils/date';
 import toast from 'react-hot-toast';
 import { Plus, Trash2, ToggleLeft, ToggleRight } from 'lucide-react';
 
@@ -49,7 +50,7 @@ export default function VoucherManagement() {
     catch (err: any) { toast.error(err.displayMessage); }
   };
 
-  const fmt = (dt: string) => new Date(dt).toLocaleDateString(isRTL ? 'ar-EG' : 'en-US');
+  const fmt = fmtDate;
 
   return (
     <div className="space-y-6" dir={isRTL ? 'rtl' : 'ltr'}>

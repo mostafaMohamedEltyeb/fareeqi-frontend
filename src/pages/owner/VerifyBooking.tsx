@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import { verifyQrCode } from '../../api/bookings';
+import { fmtDateTime } from '../../utils/date';
 import type { BookingResponse } from '../../types';
 import StatusBadge from '../../components/shared/StatusBadge';
 import toast from 'react-hot-toast';
@@ -15,10 +16,7 @@ export default function VerifyBooking() {
   const [loading, setLoading] = useState(false);
   const isRTL = i18n.language === 'ar';
 
-  const fmt = (dt: string) => {
-    try { return new Date(dt).toLocaleString(isRTL ? 'ar-SA' : 'en-US', { dateStyle: 'medium', timeStyle: 'short' }); }
-    catch { return dt; }
-  };
+  const fmt = fmtDateTime;
 
   const doVerify = async (code: string) => {
     if (!code.trim()) return;

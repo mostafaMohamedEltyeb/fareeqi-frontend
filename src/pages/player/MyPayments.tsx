@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getMyPayments } from '../../api/payments';
+import { fmtDate } from '../../utils/date';
 import { getPlayerFinance } from '../../api/finance';
 import type { PaymentResponse, FinanceSummaryResponse } from '../../types';
 import StatusBadge from '../../components/shared/StatusBadge';
@@ -20,10 +21,7 @@ export default function MyPayments() {
     ]).finally(() => setLoading(false));
   }, []);
 
-  const fmt = (dt: string | null) => {
-    if (!dt) return '—';
-    try { return new Date(dt).toLocaleDateString(i18n.language === 'ar' ? 'ar-SA' : 'en-US'); } catch { return dt; }
-  };
+  const fmt = (dt: string | null) => dt ? fmtDate(dt) : '—';
 
   const fmtMoney = (n?: number) =>
     n != null ? `EGP ${Number(n).toLocaleString('en-EG', { minimumFractionDigits: 2 })}` : 'EGP 0.00';

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { getSlots, createSlot, updateSlot, deleteSlot, getPlaygroundById } from '../../api/playgrounds';
+import { fmtDateTime } from '../../utils/date';
 import type { SlotResponse } from '../../types';
 import StatusBadge from '../../components/shared/StatusBadge';
 import LoadingSkeleton from '../../components/shared/LoadingSkeleton';
@@ -64,7 +65,7 @@ export default function SlotManagement() {
     catch (err: any) { toast.error(err.displayMessage); }
   };
 
-  const fmt = (dt: string) => { try { return new Date(dt).toLocaleString(isRTL ? 'ar-SA' : 'en-US', { dateStyle: 'short', timeStyle: 'short' }); } catch { return dt; } };
+  const fmt = fmtDateTime;
 
   return (
     <div className="space-y-6" dir={isRTL ? 'rtl' : 'ltr'}>

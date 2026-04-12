@@ -98,5 +98,10 @@ const ar = {
   announcementTitle: 'عنوان الإعلان', announcementMessage: 'نص الإعلان',
   discountCode: 'كود الخصم', targetAudience: 'الجمهور المستهدف',
   badgeColor: 'لون الشارة', publish: 'نشر', startDate: 'تاريخ البداية', endDate: 'تاريخ الانتهاء',
+  allStatuses: 'جميع الحالات', allPayments: 'جميع حالات الدفع',
+  filterByPlayer: 'بحث باسم اللاعب', filterByPlayground: 'بحث باسم الملعب',
+  resetFilters: 'إعادة التعيين',
+  showing: 'عرض', of: 'من', results: 'نتيجة',
+  prevPage: 'السابق', nextPage: 'التالي', page: 'صفحة',
 };
 export default ar;

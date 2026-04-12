@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getMySubscriptions, getMySubscriptionHistory, subscribePlayground, cancelSubscription } from '../../api/subscriptions';
+import { fmtDate } from '../../utils/date';
 import { getSettings } from '../../api/settings';
 import { getMyPlaygrounds } from '../../api/playgrounds';
 import type { PlaygroundSubscriptionResponse, AppSettingsResponse, PlaygroundResponse } from '../../types';
@@ -69,7 +70,7 @@ export default function OwnerSubscription() {
     setCard({ number: '', expiry: '', cvv: '' });
   };
 
-  const fmt = (dt: string) => new Date(dt).toLocaleDateString(isRTL ? 'ar-EG' : 'en-US');
+  const fmt = fmtDate;
 
   if (loading) return <p className="text-center py-10 text-gray-400">{t('loading')}</p>;
 

@@ -94,5 +94,10 @@ const en = {
   announcementTitle: 'Title', announcementMessage: 'Message',
   discountCode: 'Discount Code', targetAudience: 'Target Audience',
   badgeColor: 'Badge Color', publish: 'Publish', startDate: 'Start Date', endDate: 'End Date',
+  allStatuses: 'All Statuses', allPayments: 'All Payment Statuses',
+  filterByPlayer: 'Search by player', filterByPlayground: 'Search by playground',
+  resetFilters: 'Reset Filters',
+  showing: 'Showing', of: 'of', results: 'results',
+  prevPage: 'Previous', nextPage: 'Next', page: 'Page',
 };
 export default en;

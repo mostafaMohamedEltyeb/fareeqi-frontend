@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getAllComplaints, updateComplaint } from '../../api/complaints';
 import type { ComplaintResponse, ComplaintStatus } from '../../types';
+import { fmtDate } from '../../utils/date';
 import toast from 'react-hot-toast';
 import { X, MessageSquare, Clock, CheckCircle, XCircle, AlertCircle, Filter, Send } from 'lucide-react';
 import LoadingSkeleton from '../../components/shared/LoadingSkeleton';
@@ -73,7 +74,7 @@ export default function ComplaintsManagement() {
     }
   };
 
-  const fmt = (dt: string) => new Date(dt).toLocaleDateString(isRTL ? 'ar-EG' : 'en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+  const fmt = fmtDate;
 
   const counts = {
     ALL: complaints.length,

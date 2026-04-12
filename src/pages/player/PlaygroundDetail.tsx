@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { getPlaygroundById, ratePlayground } from '../../api/playgrounds';
+import { fmtDateTime, fmtTime, fmtDayLabel } from '../../utils/date';
 import { createBooking } from '../../api/bookings';
 import { getAllTeams } from '../../api/teams';
 import type { PlaygroundDetailResponse, SlotResponse, TeamResponse } from '../../types';
@@ -59,9 +60,7 @@ export default function PlaygroundDetail() {
   if (loading) return <LoadingSkeleton rows={8} />;
   if (!playground) return <div className="text-center text-gray-400 py-16">{t('noData')}</div>;
 
-  const fmt = (dt: string) => new Date(dt).toLocaleString(isRTL ? 'ar-EG' : 'en-US', { dateStyle: 'medium', timeStyle: 'short' });
-  const fmtTime = (dt: string) => new Date(dt).toLocaleTimeString(isRTL ? 'ar-EG' : 'en-US', { timeStyle: 'short' });
-  const fmtDate = (dt: string) => new Date(dt).toLocaleDateString(isRTL ? 'ar-EG' : 'en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+  const fmt = fmtDateTime;
 
   const availableSlots = playground.slots.filter(s => s.status === 'AVAILABLE' && s.availableSpots > 0);
   const reservedSlots = playground.slots.filter(s => s.status === 'RESERVED' || s.availableSpots === 0);

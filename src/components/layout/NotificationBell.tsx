@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Bell } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { getMyNotifications, markNotificationRead } from '../../api/notifications';
+import { fmtDateTime } from '../../utils/date';
 import type { NotificationResponse } from '../../types';
 import { useAuthStore } from '../../store/authStore';
 
@@ -41,10 +42,7 @@ export default function NotificationBell() {
     } catch {}
   };
 
-  const formatTime = (dt: string) => {
-    try { return new Date(dt).toLocaleString(isRTL ? 'ar-SA' : 'en-US', { dateStyle: 'short', timeStyle: 'short' }); }
-    catch { return dt; }
-  };
+  const formatTime = fmtDateTime;
 
   return (
     <div ref={ref} className="relative">

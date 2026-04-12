@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import { X, Tag, Copy, Check, Megaphone } from 'lucide-react';
 import { getActiveAnnouncements } from '../../api/announcements';
+import { fmtDate } from '../../utils/date';
 import type { AnnouncementResponse, BadgeColor } from '../../types';
 
 const colorMap: Record<BadgeColor, { banner: string; badge: string; code: string }> = {
@@ -33,6 +35,7 @@ function CopyButton({ code }: { code: string }) {
 export default function AnnouncementBanner() {
   const { i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
+  const location = useLocation();
 
   const [announcements, setAnnouncements] = useState<AnnouncementResponse[]>([]);
   const [dismissed, setDismissed] = useState<Set<number>>(() => {
@@ -44,11 +47,14 @@ export default function AnnouncementBanner() {
     }
   });
 
+  // Re-fetch on every route change so new announcements appear without a full refresh
   useEffect(() => {
     getActiveAnnouncements()
       .then((r) => setAnnouncements(r.data))
-      .catch(() => {});
-  }, []);
+      .catch(() => {
+        // Silently ignore — banner is non-critical; network errors shouldn't break the layout
+      });
+  }, [location.pathname]);
 
   const dismiss = (id: number) => {
     const next = new Set(dismissed).add(id);
@@ -81,9 +87,7 @@ export default function AnnouncementBanner() {
               {a.endDate && (
                 <p className="text-xs text-gray-400 mt-1.5">
                   {isRTL ? 'صالح حتى: ' : 'Valid until: '}
-                  {new Date(a.endDate).toLocaleDateString(isRTL ? 'ar-EG' : 'en-US', {
-                    year: 'numeric', month: 'short', day: 'numeric',
-                  })}
+                  {fmtDate(a.endDate)}
                 </p>
               )}
             </div>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getAllMatches, createMatch } from '../../api/matches';
+import { fmtDateTime } from '../../utils/date';
 import { getAllTeams } from '../../api/teams';
 import { getPlaygrounds } from '../../api/playgrounds';
 import type { MatchResponse, TeamResponse, PlaygroundResponse } from '../../types';
@@ -36,7 +37,7 @@ export default function MatchesPage() {
     finally { setSaving(false); }
   };
 
-  const fmt = (dt: string) => { try { return new Date(dt).toLocaleString(i18n.language === 'ar' ? 'ar-SA' : 'en-US', { dateStyle: 'medium', timeStyle: 'short' }); } catch { return dt; } };
+  const fmt = fmtDateTime;
 
   return (
     <div className="space-y-6">

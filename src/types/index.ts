@@ -253,6 +253,24 @@ export interface OwnerDashboardResponse {
   rejectedBookings: number;
 }
 
+export interface PagedResponse<T> {
+  content: T[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+  last: boolean;
+}
+
+export interface BookingFilters {
+  playerName?: string;
+  playgroundName?: string;
+  status?: BookingStatus | '';
+  paymentStatus?: PaymentStatus | '';
+  dateFrom?: string;
+  dateTo?: string;
+}
+
 export interface AdminDashboardResponse {
   totalUsers: number;
   totalPlaygrounds: number;
