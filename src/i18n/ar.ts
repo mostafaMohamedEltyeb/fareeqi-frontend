@@ -24,7 +24,7 @@ const ar = {
   addSlot: 'إضافة موعد', editSlot: 'تعديل الموعد',
   bookingDetails: 'تفاصيل الحجز', createdAt: 'تاريخ الإنشاء', qrCode: 'رمز QR',
   cancel: 'إلغاء', approve: 'قبول', reject: 'رفض', edit: 'تعديل', payNow: 'ادفع الآن',
-  status: 'الحالة', pending: 'معلق', approved: 'مقبول', rejected: 'مرفوض', cancelled: 'ملغي',
+  status: 'الحالة', pending: 'معلق', approved: 'مقبول', rejected: 'مرفوض', cancelled: 'ملغي', checked_in: 'تم التسجيل',
   paymentStatus: 'حالة الدفع', paid: 'مدفوع', refunded: 'مسترد', amount: 'المبلغ',
   referenceNumber: 'رقم المرجع', paidAt: 'تاريخ الدفع', initiated: 'جارٍ',
   completed: 'مكتمل', initiatePayment: 'بدء الدفع', confirmPayment: 'تأكيد الدفع',

@@ -22,7 +22,7 @@ const en = {
   bookingDetails: 'Booking Details', createdAt: 'Created At', qrCode: 'QR Code',
   cancel: 'Cancel', approve: 'Approve', reject: 'Reject', edit: 'Edit', payNow: 'Pay Now',
   status: 'Status', pending: 'Pending', approved: 'Approved', rejected: 'Rejected',
-  cancelled: 'Cancelled', paymentStatus: 'Payment Status', paid: 'Paid', refunded: 'Refunded',
+  cancelled: 'Cancelled', checked_in: 'Checked In', paymentStatus: 'Payment Status', paid: 'Paid', refunded: 'Refunded',
   amount: 'Amount', referenceNumber: 'Reference Number', paidAt: 'Paid At', initiated: 'Initiated',
   completed: 'Completed', initiatePayment: 'Initiate Payment', confirmPayment: 'Confirm Payment',
   cancelPayment: 'Cancel Payment', paymentSuccess: 'Payment Successful!',
