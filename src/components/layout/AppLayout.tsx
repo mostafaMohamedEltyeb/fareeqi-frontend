@@ -11,7 +11,7 @@ export default function AppLayout() {
   const { i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
   const user = useAuthStore((s) => s.user);
-  const showBanner = user?.userType === 'PLAYER' || user?.userType === 'FIELD_OWNER';
+  const showBanner = !!user;
 
   return (
     <div dir={isRTL ? 'rtl' : 'ltr'} className="flex h-screen bg-gray-50 overflow-hidden">
