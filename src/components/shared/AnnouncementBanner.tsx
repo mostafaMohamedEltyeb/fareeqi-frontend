@@ -50,9 +50,12 @@ export default function AnnouncementBanner() {
   // Re-fetch on every route change so new announcements appear without a full refresh
   useEffect(() => {
     getActiveAnnouncements()
-      .then((r) => setAnnouncements(r.data))
-      .catch(() => {
-        // Silently ignore — banner is non-critical; network errors shouldn't break the layout
+      .then((r) => {
+        const data = Array.isArray(r.data) ? r.data : [];
+        setAnnouncements(data);
+      })
+      .catch((err) => {
+        console.error('[AnnouncementBanner] fetch error:', err);
       });
   }, [location.pathname]);
 
