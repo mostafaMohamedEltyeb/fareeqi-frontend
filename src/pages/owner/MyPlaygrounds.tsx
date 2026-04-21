@@ -46,6 +46,15 @@ export default function MyPlaygrounds() {
     catch (err: any) { toast.error(err.displayMessage); }
   };
 
+  const validateImageFile = (file: File): string | null => {
+    const allowed = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+    if (!allowed.includes(file.type))
+      return i18n.language === 'ar' ? 'يُسمح فقط بصور JPEG أو PNG أو WebP' : 'Only JPEG, PNG, or WebP images are allowed';
+    if (file.size > 5 * 1024 * 1024)
+      return i18n.language === 'ar' ? 'يجب أن يكون حجم الصورة أقل من 5 ميغابايت' : 'Image must be smaller than 5 MB';
+    return null;
+  };
+
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file || !imagesModal) return;
@@ -53,6 +62,8 @@ export default function MyPlaygrounds() {
       toast.error(i18n.language === 'ar' ? 'الحد الأقصى 10 صور' : 'Max 10 images allowed');
       return;
     }
+    const validationError = validateImageFile(file);
+    if (validationError) { toast.error(validationError); if (fileInputRef.current) fileInputRef.current.value = ''; return; }
     setUploadingImg(true);
     try {
       const r = await uploadPlaygroundImage(imagesModal.id, file);

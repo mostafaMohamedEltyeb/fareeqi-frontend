@@ -32,6 +32,8 @@ import MyComplaints from '../pages/player/MyComplaints';
 import OwnerComplaints from '../pages/owner/OwnerComplaints';
 import ComplaintsManagement from '../pages/admin/ComplaintsManagement';
 import AnnouncementsManagement from '../pages/admin/AnnouncementsManagement';
+import DiscoverPage from '../pages/player/DiscoverPage';
+import ImageModeration from '../pages/admin/ImageModeration';
 
 function Guard({ children, roles }: { children: React.ReactNode; roles?: string[] }) {
   const user = useAuthStore((s) => s.user);
@@ -60,6 +62,7 @@ const router = createBrowserRouter([
       { path: 'player/matches', element: <Guard roles={['PLAYER']}><MatchesPage /></Guard> },
       { path: 'player/profile', element: <Guard roles={['PLAYER']}><PlayerProfile /></Guard> },
       { path: 'player/complaints', element: <Guard roles={['PLAYER']}><MyComplaints /></Guard> },
+      { path: 'player/discover', element: <Guard roles={['PLAYER']}><DiscoverPage /></Guard> },
       { path: 'owner/dashboard', element: <Guard roles={['FIELD_OWNER']}><OwnerDashboard /></Guard> },
       { path: 'owner/playgrounds', element: <Guard roles={['FIELD_OWNER']}><MyPlaygrounds /></Guard> },
       { path: 'owner/playgrounds/:playgroundId/slots', element: <Guard roles={['FIELD_OWNER']}><SlotManagement /></Guard> },
@@ -77,6 +80,7 @@ const router = createBrowserRouter([
       { path: 'admin/settings', element: <Guard roles={['ADMIN']}><PlatformSettings /></Guard> },
       { path: 'admin/complaints', element: <Guard roles={['ADMIN']}><ComplaintsManagement /></Guard> },
       { path: 'admin/announcements', element: <Guard roles={['ADMIN']}><AnnouncementsManagement /></Guard> },
+      { path: 'admin/images', element: <Guard roles={['ADMIN']}><ImageModeration /></Guard> },
       { path: '*', element: <Navigate to="/login" replace /> },
     ],
   },

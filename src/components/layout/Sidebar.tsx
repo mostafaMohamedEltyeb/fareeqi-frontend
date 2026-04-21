@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuthStore } from '../../store/authStore';
 import { getProfile } from '../../api/profile';
-import { LayoutDashboard, MapPin, CalendarDays, CreditCard, Users, Trophy, Swords, User, LogOut, X, Building2, ClipboardList, QrCode, ChevronLeft, ChevronRight, TrendingUp, Tag, Settings2, Sparkles, MessageSquareWarning, Megaphone } from 'lucide-react';
+import { LayoutDashboard, MapPin, CalendarDays, CreditCard, Users, Trophy, Swords, User, LogOut, X, Building2, ClipboardList, QrCode, ChevronLeft, ChevronRight, TrendingUp, Tag, Settings2, Sparkles, MessageSquareWarning, Megaphone, Compass, Images } from 'lucide-react';
 
 interface Props { open: boolean; onClose: () => void; }
 
@@ -29,6 +29,7 @@ export default function Sidebar({ open, onClose }: Props) {
     { to: '/player/matches', icon: Swords, label: t('matches') },
     { to: '/player/profile', icon: User, label: t('profile') },
     { to: '/player/complaints', icon: MessageSquareWarning, label: t('myComplaints') },
+    { to: '/player/discover', icon: Compass, label: t('findAGame') },
   ];
   const ownerNav = [
     { to: '/owner/dashboard', icon: LayoutDashboard, label: t('dashboard') },
@@ -49,6 +50,7 @@ export default function Sidebar({ open, onClose }: Props) {
     { to: '/admin/settings', icon: Settings2, label: t('platformSettings') },
     { to: '/admin/complaints', icon: MessageSquareWarning, label: t('complaintsManagement') },
     { to: '/admin/announcements', icon: Megaphone, label: t('announcementsManagement') },
+    { to: '/admin/images', icon: Images, label: t('imageModeration') },
   ];
 
   const navItems = user?.userType === 'PLAYER' ? playerNav : user?.userType === 'FIELD_OWNER' ? ownerNav : adminNav;

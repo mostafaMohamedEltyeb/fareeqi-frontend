@@ -29,6 +29,9 @@ export default function PlayerProfile() {
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    const allowed = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+    if (!allowed.includes(file.type)) { toast.error(i18n.language === 'ar' ? 'يُسمح فقط بصور JPEG أو PNG أو WebP' : 'Only JPEG, PNG, or WebP images are allowed'); if (fileInputRef.current) fileInputRef.current.value = ''; return; }
+    if (file.size > 5 * 1024 * 1024) { toast.error(i18n.language === 'ar' ? 'يجب أن يكون حجم الصورة أقل من 5 ميغابايت' : 'Image must be smaller than 5 MB'); if (fileInputRef.current) fileInputRef.current.value = ''; return; }
     setUploadingImg(true);
     try {
       const r = await uploadProfileImage(file);

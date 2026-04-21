@@ -271,6 +271,27 @@ export interface BookingFilters {
   dateTo?: string;
 }
 
+export interface OpenGroupSlotInfo {
+  slotId: number;
+  startTime: string;
+  endTime: string;
+  pricePerHour: number;
+  capacity: number;
+  currentParticipants: number;
+  availableSpots: number;
+  participantUsernames: string[];
+  playgroundId: number;
+  playgroundName: string;
+  playgroundLocation: string;
+  playgroundImageUrls: string[];
+  sportType: SportType;
+}
+
+export interface RecommendationResponse {
+  recommendedPlaygrounds: PlaygroundResponse[];
+  openGroupSlots: OpenGroupSlotInfo[];
+}
+
 export interface AdminDashboardResponse {
   totalUsers: number;
   totalPlaygrounds: number;
