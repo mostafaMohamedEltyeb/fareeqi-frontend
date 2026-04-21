@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import AppLayout from '../components/layout/AppLayout';
+import ErrorPage from '../pages/ErrorPage';
 import LoginPage from '../pages/auth/LoginPage';
 import RegisterPage from '../pages/auth/RegisterPage';
 import PlayerDashboard from '../pages/player/PlayerDashboard';
@@ -40,11 +41,12 @@ function Guard({ children, roles }: { children: React.ReactNode; roles?: string[
 }
 
 const router = createBrowserRouter([
-  { path: '/login', element: <LoginPage /> },
-  { path: '/register', element: <RegisterPage /> },
+  { path: '/login', element: <LoginPage />, errorElement: <ErrorPage /> },
+  { path: '/register', element: <RegisterPage />, errorElement: <ErrorPage /> },
   {
     path: '/',
     element: <Guard><AppLayout /></Guard>,
+    errorElement: <ErrorPage />,
     children: [
       { index: true, element: <Navigate to="/login" replace /> },
       { path: 'player/dashboard', element: <Guard roles={['PLAYER']}><PlayerDashboard /></Guard> },

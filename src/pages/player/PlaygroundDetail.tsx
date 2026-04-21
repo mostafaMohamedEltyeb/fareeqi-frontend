@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { getPlaygroundById, ratePlayground } from '../../api/playgrounds';
-import { fmtDateTime, fmtTime, fmtDayLabel } from '../../utils/date';
+import { fmtDateTime, fmtDate, fmtTime } from '../../utils/date';
 import { createBooking } from '../../api/bookings';
 import { getAllTeams } from '../../api/teams';
 import type { PlaygroundDetailResponse, SlotResponse, TeamResponse } from '../../types';
